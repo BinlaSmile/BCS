@@ -13,4 +13,9 @@ public class UserController {
     public User GetUser(@PathVariable("id") Long id){
         return new User(id,"Test",25);
     }
+
+    @RequestMapping("/a{id}")
+    public User GetUserA(@PathVariable("id") Long id){
+        return new User(id,"Test",25);
+    }
 }
