@@ -1,40 +1,41 @@
 package com.binla.bcs.domain;
 
 public class User {
-    private Long id;
-    private  String name;
-    private  Integer age;
+    private int uid;
+    private  String username;
+    private String password;
     public User() {
     }
-    public User(Long id, String name, Integer age) {
-        this.id = id;
-        this.name = name;
-        this.age = age;
+    public User(int uid, String username, String password) {
+        this.uid = uid;
+        this.username = username;
+        this.password = password;
     }
-    public Long getId() {
-        return id;
+    public int getId() {
+        return uid;
     }
-    public void setId(Long id) {
-        this.id = id;
+    public void setId(int uid) {
+        this.uid = uid;
     }
-    public String getName() {
-        return name;
+
+    public String getPassword() {
+        return password;
     }
-    public void setName(String name) {
-        this.name = name;
+
+    public String getUsername() {
+        return username;
     }
-    public Integer getAge() {
-        return age;
+
+    public void setPassword(String password) {
+        this.password = password;
     }
-    public void setAge(Integer age) {
-        this.age = age;
+
+    public void setUsername(String username) {
+        this.username = username;
     }
+
     @Override
     public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", age=" + age +
-                '}';
+        return "User{ id=" + uid + ", username='" + username + "'}";
     }
 }

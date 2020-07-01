@@ -1,0 +1,13 @@
+server:
+  port: 8088
+
+spring:
+  application:
+    name: BellCatShopManagement
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: Binla
+    password: ls054736
+    url: jdbc:mysql://101.201.102.235:3306/BCS?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8
+
