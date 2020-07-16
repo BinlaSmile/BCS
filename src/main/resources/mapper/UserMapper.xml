@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.binla.bcs.repository.IUserRepository">
+
+
+
+    <resultMap id="userMap" type="com.binla.bcs.domain.User">
+        <id column="uid" property="uid"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="roles" property="roles"/>
+    </resultMap>
+
+    <select id="countUser" resultType="Integer">
+        SELECT count(1) FROM tab_user
+    </select>
+
+    <select id="listUser" resultMap="userMap">
+        SELECT *
+        FROM tab_user
+    </select>
+
+    <select id="getByNamePassWord" resultType="com.binla.bcs.domain.User">
+        SELECT uid,
+                username,
+                password
+        FROM tab_user
+        WHERE username=#{userName}
+        AND password=#{password}
+    </select>
+</mapper>
