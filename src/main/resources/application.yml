@@ -7,10 +7,11 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    username: Binla
-    password: ls054736
-    url: jdbc:mysql://101.201.102.235:3306/BCS?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8
+    username: xxxxxx
+    password: xxxxxx
+    url: jdbc:mysql://000.000.000.000:0000/BCS?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8
 
 mybatis:
   mapperLocations: classpath:/mapper/*.xml
+
 

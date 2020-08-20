@@ -13,7 +13,8 @@
     </resultMap>
 
     <select id="countUser" resultType="Integer">
-        SELECT count(1) FROM tab_user
+        SELECT count(1)
+        FROM tab_user
     </select>
 
     <select id="listUser" resultMap="userMap">

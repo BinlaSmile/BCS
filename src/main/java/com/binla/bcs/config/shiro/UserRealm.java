@@ -45,7 +45,7 @@ public class UserRealm extends AuthorizingRealm {
         String loginName = (String) authcToken.getPrincipal();
         // 获取用户密码
         String password = new String((char[]) authcToken.getCredentials());
-        User user = loginService.login(loginName, password);
+        User user = loginService.getUser(loginName, password);
         if (user == null) {
             //没找到帐号
             throw new UnknownAccountException();

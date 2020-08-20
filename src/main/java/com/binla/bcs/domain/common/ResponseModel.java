@@ -16,9 +16,9 @@ public class ResponseModel<T> {
     private T data;
 
     //私有的构造方法 防止外部调用
-    private ResponseModel(T data){
-        this.retCode = 0;
-        this.message = "Success";
+    private ResponseModel(CodeMsg cm,T data){
+        this.retCode = cm.getRetCode();
+        this.message = cm.getMessage();
         this.data = data;
     }
 
@@ -29,11 +29,11 @@ public class ResponseModel<T> {
 
     //成功时调用(只需要传入data实体, 成功状态code和信息都封装在构造方法里的)
     public static <T> ResponseModel<T> Success(T data){
-        return new ResponseModel<>(data);
+        return new ResponseModel<>(CodeMsg.SUCCESS,data);
     }
 
     public static <T> ResponseModel<T> Success(){
-        return (ResponseModel<T>) Success("");
+        return new ResponseModel<>(CodeMsg.SUCCESS);
     }
 
     //失败时调用

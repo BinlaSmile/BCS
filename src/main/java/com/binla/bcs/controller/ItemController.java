@@ -1,17 +1,14 @@
 package com.binla.bcs.controller;
 
-import com.binla.bcs.domain.Project;
-import com.binla.bcs.domain.User;
+import com.binla.bcs.domain.Item;
 import com.binla.bcs.domain.common.ResponseModel;
-
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.*;
 
-
 @RestController
-@Api("User")
-@RequestMapping("/api/user")
-public class UserController {
+@Api("Item")
+@RequestMapping("/api/item")
+public class ItemController {
 
     @GetMapping("/getList")
     public ResponseModel getList()
@@ -22,18 +19,18 @@ public class UserController {
     @GetMapping("/getInfo/{id}")
     public ResponseModel getInfo(@PathVariable int id)
     {
-        User entiy = new User();
+        Item entiy = new Item();
         return ResponseModel.Success(entiy);
     }
 
     @PostMapping("/create")
-    public ResponseModel create(@RequestBody User enity)
+    public ResponseModel create(@RequestBody Item enity)
     {
         return ResponseModel.Success();
     }
 
     @PutMapping("/update/{id}")
-    public ResponseModel edit(@RequestBody User enity, @PathVariable int id)
+    public ResponseModel edit(@RequestBody Item enity, @PathVariable int id)
     {
         return ResponseModel.Success();
     }
@@ -43,4 +40,5 @@ public class UserController {
     {
         return ResponseModel.Success();
     }
+
 }

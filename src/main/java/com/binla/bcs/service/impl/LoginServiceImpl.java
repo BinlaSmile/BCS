@@ -32,7 +32,7 @@ public class LoginServiceImpl implements ILoginService {
     }
 
     @Override
-    public User login(String username, String password) {
+    public User getUser(String username, String password) {
         return userRepository.getByNamePassWord(username, password);
     }
 

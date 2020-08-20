@@ -5,21 +5,21 @@ import com.binla.bcs.domain.User;
 import com.binla.bcs.domain.common.CodeMsg;
 import com.binla.bcs.domain.common.ResponseModel;
 import com.binla.bcs.service.ILoginService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import javax.xml.ws.Response;
 
 @RestController
-@RequestMapping("/login")
-public class LoginController {
+@Api("Auth")
+@RequestMapping("/api/Auth")
+public class AuthController {
     @Autowired
     private ILoginService loginService;
 
-    @PostMapping("/auth")
+    @PostMapping("/login")
     public ResponseModel authLogin(@RequestBody JSONObject requestJson) {
         String userName = requestJson.getString("username");
         String password = requestJson.getString("password");
@@ -31,8 +31,8 @@ public class LoginController {
         }
     }
 
-    @PostMapping("/getInfo")
-    public ResponseModel<User> getInfo() {
+    @GetMapping("/getInfo")
+    public ResponseModel getInfo() {
         return ResponseModel.Success(loginService.getInfo());
     }
 
