@@ -2,29 +2,33 @@ package com.binla.bcs.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.binla.bcs.domain.User;
-import com.binla.bcs.domain.common.CodeMsg;
-import com.binla.bcs.domain.common.ResponseModel;
+import com.binla.bcs.model.AuthResultModel;
+import com.binla.bcs.model.LoginModel;
+import com.binla.bcs.model.common.CodeMsg;
+import com.binla.bcs.model.common.ResponseModel;
 import com.binla.bcs.service.ILoginService;
+import com.binla.bcs.service.IUserService;
+import com.binla.bcs.utils.JwtUtil;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 
 @RestController
 @Api("Auth")
-@RequestMapping("/api/Auth")
+@RequestMapping("/api/auth")
 public class AuthController {
     @Autowired
     private ILoginService loginService;
+    @Autowired
+    private IUserService userService;
 
     @PostMapping("/login")
-    public ResponseModel authLogin(@RequestBody JSONObject requestJson) {
-        String userName = requestJson.getString("username");
-        String password = requestJson.getString("password");
-        if(loginService.authLogin(userName,password)){
-            return ResponseModel.Success();
+    public ResponseModel<AuthResultModel> authLogin(@RequestBody LoginModel request) {
+        User user = userService.getByCodePassword(request.getUserCode(),request.getPassword());
+        if(user!=null){
+            String token = JwtUtil.sign(request.getUserCode(), request.getPassword());
+            return ResponseModel.Success(new AuthResultModel(user.getCode(),token));
         }
         else{
             return ResponseModel.Error(CodeMsg.NAME_OR_PASSWORD_ERROR);

@@ -5,46 +5,45 @@ import com.binla.bcs.domain.common.BaseEntity;
 import java.util.Date;
 
 public class Project extends BaseEntity {
-    private int pid;
-    private String title;
-    private String desc;
+    private String projectNo;
+    private String name;
     private Date beginDate;
-    private Date endDate;
-    private int schedule;
-    public Project(){
+    private Date completionDate;
+    private int priority;
+    private String milestone;
+    private String des;
+    private String addition;
+
+    public Project()
+    {
+
 
     }
-    public Project(int pid, String title, String desc, Date beginDate, Date endDate, int schedule) {
-        this.pid = pid;
-        this.title = title;
-        this.desc = desc;
+    public Project(String projectNo, String name, Date beginDate, Date completionDate, int priority, String milestone, String des, String addition) {
+        this.projectNo = projectNo;
+        this.name = name;
         this.beginDate = beginDate;
-        this.endDate = endDate;
-        this.schedule = schedule;
+        this.completionDate = completionDate;
+        this.priority = priority;
+        this.milestone = milestone;
+        this.des = des;
+        this.addition = addition;
     }
 
-    public int getPid() {
-        return pid;
+    public String getProjectNo() {
+        return projectNo;
     }
 
-    public void setPid(int pid) {
-        this.pid = pid;
+    public void setProjectNo(String projectNo) {
+        this.projectNo = projectNo;
     }
 
-    public String getTitle() {
-        return title;
+    public String getName() {
+        return name;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getDesc() {
-        return desc;
-    }
-
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Date getBeginDate() {
@@ -55,19 +54,43 @@ public class Project extends BaseEntity {
         this.beginDate = beginDate;
     }
 
-    public Date getEndDate() {
-        return endDate;
+    public Date getCompletionDate() {
+        return completionDate;
     }
 
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
+    public void setCompletionDate(Date completionDate) {
+        this.completionDate = completionDate;
     }
 
-    public int getSchedule() {
-        return schedule;
+    public int getPriority() {
+        return priority;
     }
 
-    public void setSchedule(int schedule) {
-        this.schedule = schedule;
+    public void setPriority(int priority) {
+        this.priority = priority;
+    }
+
+    public String getMilestone() {
+        return milestone;
+    }
+
+    public void setMilestone(String milestone) {
+        this.milestone = milestone;
+    }
+
+    public String getDes() {
+        return des;
+    }
+
+    public void setDes(String des) {
+        this.des = des;
+    }
+
+    public String getAddition() {
+        return addition;
+    }
+
+    public void setAddition(String addition) {
+        this.addition = addition;
     }
 }

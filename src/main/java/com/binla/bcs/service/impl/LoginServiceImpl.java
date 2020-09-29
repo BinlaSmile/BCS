@@ -33,7 +33,7 @@ public class LoginServiceImpl implements ILoginService {
 
     @Override
     public User getUser(String username, String password) {
-        return userRepository.getByNamePassWord(username, password);
+        return userRepository.getByCodePassword(username, password);
     }
 
     @Override
@@ -41,8 +41,8 @@ public class LoginServiceImpl implements ILoginService {
         //从session获取用户信息
         Session session = SecurityUtils.getSubject().getSession();
         User userInfo = (User) session.getAttribute("userInfo");
-        List<String> userPermission = userRepository.getPermissionById(userInfo.getUid());
-        session.setAttribute("userPermission", userPermission);
+        //List<String> userPermission = userRepository.getPermissionById(userInfo.getCode());
+        //session.setAttribute("userPermission", userPermission);
         return userInfo;
     }
 

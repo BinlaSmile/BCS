@@ -1,4 +1,4 @@
-package com.binla.bcs.domain.common;
+package com.binla.bcs.model.common;
 
 //用法示例
 //1. result = ResponseModel.Success(data);// 成功，并返回数据和retCode和message

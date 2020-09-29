@@ -1,6 +1,5 @@
 package com.binla.bcs.domain.common;
 
-import java.io.Serializable;
 import java.util.Date;
 
 public class BaseEntity {
@@ -8,7 +7,6 @@ public class BaseEntity {
     private Date insertDate;
     private String updateUser;
     private Date updateDate;
-    private static final long serialVersionUID = 7766184319541530720L;
 
     public Date getInsertDate() {
         return insertDate;

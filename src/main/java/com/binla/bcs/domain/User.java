@@ -5,78 +5,76 @@ import com.binla.bcs.domain.common.BaseEntity;
 import java.util.Date;
 
 public class User extends BaseEntity {
-    private int uid;
-    private  String username;
+
+    private String code;
+    private String name;
     private String password;
-    private int roles;
+    private int role;
+    private String salt;
+    private String pic;
+    private String colorIdentity;
+
     public User() {
     }
 
-    public User(int uid, String username, String password,int roles) {
-        this.uid = uid;
-        this.username = username;
+    public User(String code, String name, String password, int role, String salt, String pic, String colorIdentity) {
+        this.code = code;
+        this.name = name;
         this.password = password;
-        this.roles = roles;
+        this.role = role;
+        this.salt = salt;
+        this.pic = pic;
+        this.colorIdentity = colorIdentity;
     }
-    public int getUid() {
-        return uid;
+
+    public String getCode() {
+        return code;
     }
+    public void setCode(String code) {
+        this.code = code;
+    }
+
     public String getPassword() {
         return password;
-    }
-    public String getUsername() {
-        return username;
-    }
-    public int getRoles() {
-        return roles;
-    }
-    public void setUid(int uid) {
-        this.uid = uid;
     }
     public void setPassword(String password) {
         this.password = password;
     }
-    public void setUsername(String username) {
-        this.username = username;
+
+    public String getName() {
+        return name;
     }
-    public void setRoles(int roles) {
-        this.roles = roles;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    @Override
-    public Date getInsertDate() {
-        return super.getInsertDate();
+    public int getRole() {
+        return role;
     }
-    @Override
-    public Date getUpdateDate() {
-        return super.getUpdateDate();
+    public void setRole(int role) {
+        this.role = role;
     }
-    @Override
-    public String getInsertUser() {
-        return super.getInsertUser();
+
+    public String getSalt() {
+        return salt;
     }
-    @Override
-    public String getUpdateUser() {
-        return super.getUpdateUser();
+    public void setSalt(String salt) {
+        this.salt = salt;
     }
-    @Override
-    public void setInsertDate(Date insertDate) {
-        super.setInsertDate(insertDate);
+
+    public String getPic() {
+        return pic;
     }
-    @Override
-    public void setInsertUser(String insertUser) {
-        super.setInsertUser(insertUser);
+    public void setPic(String pic) {
+        this.pic = pic;
     }
-    @Override
-    public void setUpdateDate(Date updateDate) {
-        super.setUpdateDate(updateDate);
+
+    public String getColorIdentity() {
+        return colorIdentity;
     }
-    @Override
-    public void setUpdateUser(String updateUser) {
-        super.setUpdateUser(updateUser);
+    public void setColorIdentity(String colorIdentity) {
+        this.colorIdentity = colorIdentity;
     }
-    @Override
-    public String toString() {
-        return "User{ id=" + uid + ", username='" + username + "'}";
-    }
+
+
 }

@@ -1,4 +1,4 @@
-package com.binla.bcs.domain.common;
+package com.binla.bcs.model.common;
 
 public class CodeMsg {
     private int retCode;

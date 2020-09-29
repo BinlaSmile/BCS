@@ -1,7 +1,6 @@
 package com.binla.bcs.config.shiro;
 
-import com.alibaba.fastjson.JSONObject;
-import com.binla.bcs.domain.common.CodeMsg;
+import com.binla.bcs.model.common.CodeMsg;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;

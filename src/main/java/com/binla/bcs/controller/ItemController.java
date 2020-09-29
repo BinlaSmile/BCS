@@ -1,7 +1,7 @@
 package com.binla.bcs.controller;
 
 import com.binla.bcs.domain.Item;
-import com.binla.bcs.domain.common.ResponseModel;
+import com.binla.bcs.model.common.ResponseModel;
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.*;
 

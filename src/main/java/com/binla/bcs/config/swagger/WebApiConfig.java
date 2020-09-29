@@ -1,4 +1,4 @@
-package com.binla.bcs.config;
+package com.binla.bcs.config.swagger;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
