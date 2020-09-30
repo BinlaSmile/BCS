@@ -13,6 +13,8 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class JwtFilter extends BasicHttpAuthenticationFilter {
@@ -48,8 +50,17 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
     protected boolean isLoginAttempt(ServletRequest request, ServletResponse response) {
         //log.info("JwtFilter-->>>isLoginAttempt-Method:init()");
         HttpServletRequest req = (HttpServletRequest) request;
-        if(antPathMatcher.match("/api/auth/login",req.getRequestURI())){
-            return true;
+        List<String> accessUrlList = new ArrayList<>();
+        accessUrlList.add("/api/auth/login");
+        accessUrlList.add("/swagger-ui.html");
+        accessUrlList.add("/swagger-resources/**");
+        accessUrlList.add("/webjars/**");
+        accessUrlList.add("/v2/api-docs");
+        for(String item : accessUrlList)
+        {
+            if(antPathMatcher.match(item,req.getRequestURI())){
+                return true;
+            }
         }
         String token = req.getHeader("Access-Token");
         if (token == null) {

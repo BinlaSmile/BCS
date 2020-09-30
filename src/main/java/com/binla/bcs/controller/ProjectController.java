@@ -1,18 +1,21 @@
 package com.binla.bcs.controller;
 
 import com.binla.bcs.domain.Project;
+import com.binla.bcs.model.common.PageReqModel;
 import com.binla.bcs.model.common.ResponseModel;
+import com.binla.bcs.model.project.request.GetProjectListReqModel;
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@Api("Project")
+@Api(tags = "Project")
 @RequestMapping("/api/project")
 public class ProjectController {
 
     @GetMapping("/getList")
-    public ResponseModel getList()
+    public ResponseModel getList(@RequestBody PageReqModel pageInfo,@RequestBody GetProjectListReqModel reqModel)
     {
+
         return ResponseModel.Success();
     }
 

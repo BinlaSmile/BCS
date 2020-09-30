@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-@Api("User")
+@Api(tags = "User")
 @RequestMapping("/api/user")
 public class UserController {
 
@@ -28,6 +28,7 @@ public class UserController {
     @PostMapping("/create")
     public ResponseModel create(@RequestBody User enity)
     {
+
         return ResponseModel.Success();
     }
 

@@ -6,7 +6,7 @@ import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@Api("Item")
+@Api(tags = "Item")
 @RequestMapping("/api/item")
 public class ItemController {
 

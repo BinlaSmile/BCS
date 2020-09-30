@@ -10,21 +10,24 @@ import com.binla.bcs.service.ILoginService;
 import com.binla.bcs.service.IUserService;
 import com.binla.bcs.utils.JwtUtil;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-@Api("Auth")
+@Api(tags = "Auth")
 @RequestMapping("/api/auth")
 public class AuthController {
-    @Autowired
-    private ILoginService loginService;
+
     @Autowired
     private IUserService userService;
 
-    @PostMapping("/login")
-    public ResponseModel<AuthResultModel> authLogin(@RequestBody LoginModel request) {
+    @PostMapping("/token")
+    @ApiOperation(value = "获取授权")
+    public ResponseModel<AuthResultModel> getAuthToken (@RequestBody LoginModel request) {
         User user = userService.getByCodePassword(request.getUserCode(),request.getPassword());
         if(user!=null){
             String token = JwtUtil.sign(request.getUserCode(), request.getPassword());
@@ -32,20 +35,6 @@ public class AuthController {
         }
         else{
             return ResponseModel.Error(CodeMsg.NAME_OR_PASSWORD_ERROR);
-        }
-    }
-
-    @GetMapping("/getInfo")
-    public ResponseModel getInfo() {
-        return ResponseModel.Success(loginService.getInfo());
-    }
-
-    @PostMapping("/logout")
-    public ResponseModel logout() {
-        if(loginService.logout()){
-            return ResponseModel.Success();
-        }else{
-            return ResponseModel.Error(CodeMsg.SERVER_EXCEPTION);
         }
     }
 

@@ -32,15 +32,15 @@ public class ShiroConfiguration {
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
          /* 过滤链定义，从上向下顺序执行，/** 放在最后校验;
           authc:须认证通过才可以访问; anon:可以匿名访问 */
-        filterChainDefinitionMap.put("/api/auth/login", "anon");
+        filterChainDefinitionMap.put("/api/auth/token", "anon");
         filterChainDefinitionMap.put("/error", "anon");
         //swagger
-        filterChainDefinitionMap.put("/swagger-ui.html**", "anon");
+        filterChainDefinitionMap.put("/swagger-ui.html", "anon");
         filterChainDefinitionMap.put("/v2/api-docs", "anon");
-
         filterChainDefinitionMap.put("/swagger-resources/**", "anon");
         filterChainDefinitionMap.put("/webjars/**", "anon");
         filterChainDefinitionMap.put("/**", "authc");
+        filterChainDefinitionMap.put("/**", "jwt");
 
         Map<String, Filter> filterMap = new LinkedHashMap<>();
 
@@ -50,8 +50,6 @@ public class ShiroConfiguration {
         //filterMap.put("authc", new AjaxPermissionsAuthorizationFilter());
 
         shiroFilterFactoryBean.setFilters(filterMap);
-        filterChainDefinitionMap.put("/**", "jwt");
-
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return shiroFilterFactoryBean;
     }
