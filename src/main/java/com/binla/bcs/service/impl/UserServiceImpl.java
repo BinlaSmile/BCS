@@ -1,6 +1,6 @@
 package com.binla.bcs.service.impl;
 
-import com.binla.bcs.domain.User;
+import com.binla.bcs.entity.User;
 import com.binla.bcs.repository.IUserRepository;
 import com.binla.bcs.service.IUserService;
 import com.binla.bcs.utils.EncryptUtil;

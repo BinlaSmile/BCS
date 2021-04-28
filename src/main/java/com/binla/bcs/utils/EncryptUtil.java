@@ -1,6 +1,6 @@
 package com.binla.bcs.utils;
 
-import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
+import org.apache.shiro.codec.Base64;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
@@ -126,7 +126,7 @@ public class EncryptUtil {
     }
 
     private String base64(byte[] res){
-        return Base64.encode(res);
+        return new String(Base64.encode(res));
     }
 
     /**将二进制转换成16进制 */
@@ -276,7 +276,7 @@ public class EncryptUtil {
      * @return
      */
     public String Base64Encode(String res) {
-        return Base64.encode(res.getBytes());
+        return new String(Base64.encode(res.getBytes()));
     }
 
     /**

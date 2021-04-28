@@ -1,6 +1,6 @@
 package com.binla.bcs.config.shiro;
 
-import com.binla.bcs.model.common.CodeMsg;
+import com.binla.bcs.domain.CodeMsg;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;

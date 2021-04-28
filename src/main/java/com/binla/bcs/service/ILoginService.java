@@ -1,7 +1,6 @@
 package com.binla.bcs.service;
 
-import com.alibaba.fastjson.JSONObject;
-import com.binla.bcs.domain.User;
+import com.binla.bcs.entity.User;
 
 public interface ILoginService {
 

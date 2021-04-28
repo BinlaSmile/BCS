@@ -1,4 +1,4 @@
-package com.binla.bcs.model.common;
+package com.binla.bcs.domain;
 
 import java.io.Serializable;
 import java.util.List;

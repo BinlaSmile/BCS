@@ -1,6 +1,6 @@
 package com.binla.bcs.service.impl;
 
-import com.binla.bcs.domain.User;
+import com.binla.bcs.entity.User;
 import com.binla.bcs.repository.IUserRepository;
 import com.binla.bcs.service.ILoginService;
 import org.apache.shiro.SecurityUtils;
@@ -10,8 +10,6 @@ import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class LoginServiceImpl implements ILoginService {

@@ -1,8 +1,8 @@
 package com.binla.bcs.controller;
 
-import com.binla.bcs.domain.Project;
+import com.binla.bcs.entity.Project;
 import com.binla.bcs.model.common.PageReqModel;
-import com.binla.bcs.model.common.ResponseModel;
+import com.binla.bcs.domain.Response;
 import com.binla.bcs.model.project.request.GetProjectListReqModel;
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.*;
@@ -13,34 +13,34 @@ import org.springframework.web.bind.annotation.*;
 public class ProjectController {
 
     @GetMapping("/getList")
-    public ResponseModel getList(@RequestBody PageReqModel pageInfo,@RequestBody GetProjectListReqModel reqModel)
+    public Response getList(@RequestBody PageReqModel pageInfo, @RequestBody GetProjectListReqModel reqModel)
     {
 
-        return ResponseModel.Success();
+        return Response.Success();
     }
 
     @GetMapping("/getInfo/{id}")
-    public ResponseModel getInfo(@PathVariable int id)
+    public Response getInfo(@PathVariable int id)
     {
         Project entiy = new Project();
-        return ResponseModel.Success(entiy);
+        return Response.Success(entiy);
     }
 
     @PostMapping("/create")
-    public ResponseModel create(@RequestBody Project enity)
+    public Response create(@RequestBody Project enity)
     {
-        return ResponseModel.Success();
+        return Response.Success();
     }
 
     @PutMapping("/update/{id}")
-    public ResponseModel edit(@RequestBody Project enity, @PathVariable int id)
+    public Response edit(@RequestBody Project enity, @PathVariable int id)
     {
-        return ResponseModel.Success();
+        return Response.Success();
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseModel delete(@PathVariable int id)
+    public Response delete(@PathVariable int id)
     {
-        return ResponseModel.Success();
+        return Response.Success();
     }
 }

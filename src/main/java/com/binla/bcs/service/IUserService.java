@@ -1,6 +1,6 @@
 package com.binla.bcs.service;
 
-import com.binla.bcs.domain.User;
+import com.binla.bcs.entity.User;
 
 import java.util.List;
 

@@ -1,7 +1,7 @@
 package com.binla.bcs.controller;
 
-import com.binla.bcs.domain.User;
-import com.binla.bcs.model.common.ResponseModel;
+import com.binla.bcs.entity.User;
+import com.binla.bcs.domain.Response;
 
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.*;
@@ -13,34 +13,34 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     @GetMapping("/getList")
-    public ResponseModel getList()
+    public Response getList()
     {
-        return ResponseModel.Success();
+        return Response.Success();
     }
 
     @GetMapping("/getInfo/{id}")
-    public ResponseModel getInfo(@PathVariable int id)
+    public Response getInfo(@PathVariable int id)
     {
         User entiy = new User();
-        return ResponseModel.Success(entiy);
+        return Response.Success(entiy);
     }
 
     @PostMapping("/create")
-    public ResponseModel create(@RequestBody User enity)
+    public Response create(@RequestBody User enity)
     {
 
-        return ResponseModel.Success();
+        return Response.Success();
     }
 
     @PutMapping("/update/{id}")
-    public ResponseModel edit(@RequestBody User enity, @PathVariable int id)
+    public Response edit(@RequestBody User enity, @PathVariable int id)
     {
-        return ResponseModel.Success();
+        return Response.Success();
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseModel delete(@PathVariable int id)
+    public Response delete(@PathVariable int id)
     {
-        return ResponseModel.Success();
+        return Response.Success();
     }
 }

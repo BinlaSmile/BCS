@@ -1,9 +1,11 @@
 package com.binla.bcs.repository;
 
-import com.binla.bcs.domain.User;
+import com.binla.bcs.entity.User;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface IUserRepository {
 
     User getByName(String userName);

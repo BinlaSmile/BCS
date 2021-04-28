@@ -1,26 +1,20 @@
 package com.binla.bcs.config.shiro;
 
-import com.alibaba.fastjson.JSONObject;
 import com.binla.bcs.config.jwt.JwtToken;
-import com.binla.bcs.domain.User;
-import com.binla.bcs.service.ILoginService;
+import com.binla.bcs.entity.User;
 import com.binla.bcs.service.IUserService;
 import com.binla.bcs.utils.JwtUtil;
 import com.google.common.base.Strings;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
-import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.Collection;
-import java.util.Set;
 import java.util.UUID;
 
 public class UserRealm extends AuthorizingRealm {

@@ -30,8 +30,7 @@ public class ShiroConfiguration {
          * authc：该过滤器下的页面必须验证后才能访问,它是Shiro内置的一个拦截器org.apache.shiro.web.filter.authc.FormAuthenticationFilter
          */
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
-         /* 过滤链定义，从上向下顺序执行，/** 放在最后校验;
-          authc:须认证通过才可以访问; anon:可以匿名访问 */
+         /* 过滤链定义，从上向下顺序执行，/** 放在最后校验; authc:须认证通过才可以访问; anon:可以匿名访问 */
         filterChainDefinitionMap.put("/api/auth/token", "anon");
         filterChainDefinitionMap.put("/error", "anon");
         //swagger

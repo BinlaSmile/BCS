@@ -51,7 +51,7 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
         //log.info("JwtFilter-->>>isLoginAttempt-Method:init()");
         HttpServletRequest req = (HttpServletRequest) request;
         List<String> accessUrlList = new ArrayList<>();
-        accessUrlList.add("/api/auth/login");
+        accessUrlList.add("/api/auth/token");
         accessUrlList.add("/swagger-ui.html");
         accessUrlList.add("/swagger-resources/**");
         accessUrlList.add("/webjars/**");
