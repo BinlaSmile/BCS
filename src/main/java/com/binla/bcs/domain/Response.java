@@ -22,14 +22,19 @@ public class Response implements Serializable {
     private Object data;
 
     private Response(CodeMsg cm, Object data){
-        this.code = cm.getRetCode();
-        this.message = cm.getMessage();
+        this.code = cm.code();
+        this.message = cm.message();
         this.data = data;
     }
 
     private Response(CodeMsg cm){
-        this.code = cm.getRetCode();
-        this.message = cm.getMessage();
+        this.code = cm.code();
+        this.message = cm.message();
+    }
+
+    private Response(int code,String message){
+        this.code = code;
+        this.message = message;
     }
 
     //成功时调用(只需要传入data实体, 成功状态code和信息都封装在构造方法里的)
@@ -42,12 +47,17 @@ public class Response implements Serializable {
     }
 
     //失败时调用
+
     public static Response error(CodeMsg cm){
         return new Response(cm);
     }
 
     public static Response error(CodeMsg cm, String message){
-        cm.setMessage(cm.getMessage()+"--"+message);
+        cm.setMessage(cm.message()+"--"+message);
         return new Response(cm);
+    }
+
+    public static Response error(int code,String message){
+        return new Response(code,message);
     }
 }

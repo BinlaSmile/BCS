@@ -1,4 +1,4 @@
-package com.binla.bcs.config.shiro;
+package com.binla.bcs.core.shiro;
 
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.mgt.DefaultSessionStorageEvaluator;

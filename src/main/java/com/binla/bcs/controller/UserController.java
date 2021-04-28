@@ -15,32 +15,32 @@ public class UserController {
     @GetMapping("/getList")
     public Response getList()
     {
-        return Response.Success();
+        return Response.success();
     }
 
     @GetMapping("/getInfo/{id}")
     public Response getInfo(@PathVariable int id)
     {
         User entiy = new User();
-        return Response.Success(entiy);
+        return Response.success(entiy);
     }
 
     @PostMapping("/create")
     public Response create(@RequestBody User enity)
     {
 
-        return Response.Success();
+        return Response.success();
     }
 
     @PutMapping("/update/{id}")
     public Response edit(@RequestBody User enity, @PathVariable int id)
     {
-        return Response.Success();
+        return Response.success();
     }
 
     @DeleteMapping("/delete/{id}")
     public Response delete(@PathVariable int id)
     {
-        return Response.Success();
+        return Response.success();
     }
 }

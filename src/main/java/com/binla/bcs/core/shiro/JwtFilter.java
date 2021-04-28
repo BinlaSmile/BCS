@@ -1,12 +1,10 @@
-package com.binla.bcs.config.shiro;
+package com.binla.bcs.core.shiro;
 
-import com.binla.bcs.config.jwt.JwtToken;
+import com.binla.bcs.core.jwt.JwtToken;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.util.AntPathMatcher;
 import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.ServletRequest;

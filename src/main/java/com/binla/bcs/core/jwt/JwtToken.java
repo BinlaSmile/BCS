@@ -1,4 +1,4 @@
-package com.binla.bcs.config.jwt;
+package com.binla.bcs.core.jwt;
 
 import org.apache.shiro.authc.AuthenticationToken;
 

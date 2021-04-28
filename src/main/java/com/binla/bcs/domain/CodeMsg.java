@@ -4,9 +4,12 @@ public enum CodeMsg {
 
     SUCCESS(0001,"成功"),
     // 通用异常
+    SYSTEM_ERROR(1000,"系统异常"),
     SERVER_EXCEPTIO(1001,"服务端异常"),
     PARAMETER_ISNULL(1002,"输入参数为空"),
+    PARAM_IS_INVALID(1003,"参数错误"),
     NOT_FIND_DATA(1009,"查找不到对应数据"),
+
     // 用户异常
     NAME_OR_PASSWORD_ERROR(2000,"用户名或密码错误"),
     USER_NOT_EXSIST(2001,"用户不存在"),
@@ -16,15 +19,15 @@ public enum CodeMsg {
     private final int code;
     private String message;
 
-    private CodeMsg(int code, String message) {
+    CodeMsg(int code, String message) {
         this.code = code;
         this.message = message;
     }
 
-    public int getRetCode() {
+    public int code() {
         return code;
     }
-    public String getMessage() {
+    public String message() {
         return message;
     }
     public void setMessage(String message) {

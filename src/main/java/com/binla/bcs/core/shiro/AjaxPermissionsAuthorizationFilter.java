@@ -1,4 +1,4 @@
-package com.binla.bcs.config.shiro;
+package com.binla.bcs.core.shiro;
 
 import com.binla.bcs.domain.CodeMsg;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;

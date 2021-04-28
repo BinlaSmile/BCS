@@ -20,25 +20,25 @@ public class ItemController {
     public Response getInfo(@PathVariable int id)
     {
         Item entiy = new Item();
-        return Response.Success(entiy);
+        return Response.success(entiy);
     }
 
     @PostMapping("/create")
     public Response create(@RequestBody Item enity)
     {
-        return Response.Success();
+        return Response.success();
     }
 
     @PutMapping("/update/{id}")
     public Response edit(@RequestBody Item enity, @PathVariable int id)
     {
-        return Response.Success();
+        return Response.success();
     }
 
     @DeleteMapping("/delete/{id}")
     public Response delete(@PathVariable int id)
     {
-        return Response.Success();
+        return Response.success();
     }
 
 }

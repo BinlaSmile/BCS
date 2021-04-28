@@ -1,9 +1,9 @@
-package com.binla.bcs.config.swagger;
+package com.binla.bcs.core.config.swagger;
 
+import com.binla.bcs.core.interceptor.ResponseResultInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
@@ -16,6 +16,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @Configuration
 @EnableSwagger2
 public class Swagger2 implements WebMvcConfigurer {
+
+    //Swagger
     @Bean
     public Docket createRestApi() {
         return new Docket(DocumentationType.SWAGGER_2)
@@ -35,4 +37,11 @@ public class Swagger2 implements WebMvcConfigurer {
                 .build();
     }
 
+    //添加拦截器
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        ResponseResultInterceptor interceptor = new ResponseResultInterceptor();
+        registry.addInterceptor(interceptor);
+        WebMvcConfigurer.super.addInterceptors(registry);
+    }
 }

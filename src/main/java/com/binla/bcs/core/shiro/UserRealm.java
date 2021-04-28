@@ -1,6 +1,6 @@
-package com.binla.bcs.config.shiro;
+package com.binla.bcs.core.shiro;
 
-import com.binla.bcs.config.jwt.JwtToken;
+import com.binla.bcs.core.jwt.JwtToken;
 import com.binla.bcs.entity.User;
 import com.binla.bcs.service.IUserService;
 import com.binla.bcs.utils.JwtUtil;

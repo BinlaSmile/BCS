@@ -124,41 +124,15 @@ CREATE TABLE milestone (
 
 -- admin账号 admin  123456789
 INSERT INTO `user` ( `code`, `name`, `password`, `role`, `salt`, `insert_date`, `update_date` ) 
-VALUE
-	(
-		'admin',
-		'admin',
-		'vsYgXji35Esi/4TJVuF32Q==',
-		'0',
-		'd608b3275c0f46fc92738dd427b6e559',
-		NOW(),
-	NOW());
+VALUE ('admin', 'admin', 'vsYgXji35Esi/4TJVuF32Q==', '0', 'd608b3275c0f46fc92738dd427b6e559', NOW(), NOW());
+
 INSERT INTO `role` ( `id`, `name`, `insert_date`, `update_date` )
-VALUES
-	(
-		'0',
-		'管理员',
-		NOW(),
-	NOW()),
-	(
-		'1',
-		'用户',
-		NOW(),
-	NOW());
+VALUES ('0', '管理员', NOW(), NOW()),
+			 ('1', '用户', NOW(), NOW());
+			 
 INSERT INTO `milestone` ( `milestone_no`, `des`, `insert_date`, `update_date` )
 VALUES
-	(
-		'BSC2018',
-		'BSC Main Project 2018`s',
-		NOW(),
-	NOW()),
-	(
-		'BSC2019',
-		'BSC Main Project 2019`s',
-		NOW(),
-	NOW()),
-	(
-		'BSC2020',
-		'BSC Main Project 2020`s',
-	NOW(),
-	NOW());
+	('BSC2018', 'BSC Main Project 2018`s', NOW(), NOW()),
+	('BSC2019', 'BSC Main Project 2019`s', NOW(), NOW()),
+	('BSC2020', 'BSC Main Project 2020`s', NOW(), NOW()),
+	('BSC2021', 'BSC Main Project 2020`s', NOW(), NOW());

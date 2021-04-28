@@ -16,31 +16,31 @@ public class ProjectController {
     public Response getList(@RequestBody PageReqModel pageInfo, @RequestBody GetProjectListReqModel reqModel)
     {
 
-        return Response.Success();
+        return Response.success();
     }
 
     @GetMapping("/getInfo/{id}")
     public Response getInfo(@PathVariable int id)
     {
         Project entiy = new Project();
-        return Response.Success(entiy);
+        return Response.success(entiy);
     }
 
     @PostMapping("/create")
     public Response create(@RequestBody Project enity)
     {
-        return Response.Success();
+        return Response.success();
     }
 
     @PutMapping("/update/{id}")
     public Response edit(@RequestBody Project enity, @PathVariable int id)
     {
-        return Response.Success();
+        return Response.success();
     }
 
     @DeleteMapping("/delete/{id}")
     public Response delete(@PathVariable int id)
     {
-        return Response.Success();
+        return Response.success();
     }
 }
