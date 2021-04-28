@@ -123,7 +123,7 @@ CREATE TABLE milestone (
 
 
 -- admin账号 admin  123456789
-INSERT INTO `user` ( `code`, `name`, `password`, `role`, `salt`, `insert_date`, `update_date` ) 
+INSERT INTO `users` ( `code`, `name`, `password`, `role`, `salt`, `insert_date`, `update_date` ) 
 VALUE ('admin', 'admin', 'vsYgXji35Esi/4TJVuF32Q==', '0', 'd608b3275c0f46fc92738dd427b6e559', NOW(), NOW());
 
 INSERT INTO `role` ( `id`, `name`, `insert_date`, `update_date` )
