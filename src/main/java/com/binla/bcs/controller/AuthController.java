@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
+@ResponseResult
 @Api(tags = "Auth")
 @RequestMapping("/api/auth")
-@ResponseResult
 public class AuthController {
 
     @Autowired

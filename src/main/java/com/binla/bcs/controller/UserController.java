@@ -21,19 +21,18 @@ public class UserController {
     @GetMapping("/getInfo/{id}")
     public Response getInfo(@PathVariable int id)
     {
-        User entiy = new User();
-        return Response.success(entiy);
+        User entity = new User();
+        return Response.success(entity);
     }
 
     @PostMapping("/create")
-    public Response create(@RequestBody User enity)
+    public Response create(@RequestBody User entity)
     {
-
         return Response.success();
     }
 
     @PutMapping("/update/{id}")
-    public Response edit(@RequestBody User enity, @PathVariable int id)
+    public Response edit(@RequestBody User entity, @PathVariable int id)
     {
         return Response.success();
     }

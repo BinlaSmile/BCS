@@ -4,12 +4,14 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 @Data
 @ApiModel(value = "返回结果实体类", description = "结果实体类")
 public class Response implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "返回的状态代码(Success:0)")
@@ -20,6 +22,10 @@ public class Response implements Serializable {
 
     @ApiModelProperty(value = "返回数据")
     private Object data;
+
+    private Response(){
+
+    }
 
     private Response(CodeMsg cm, Object data){
         this.code = cm.code();

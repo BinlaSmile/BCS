@@ -5,15 +5,15 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Date;
-
+@Slf4j
 public class JwtUtil {
     /**
      * 过期时间30分钟
      */
     public static final long EXPIRE_TIME = 30 * 60 * 1000;
-
     /**
      * 校验token是否正确
      * @param token  密钥
@@ -58,6 +58,7 @@ public class JwtUtil {
     public static String sign(String userCode, String secret) {
         Date date = new Date(System.currentTimeMillis() + EXPIRE_TIME);
         Algorithm algorithm = Algorithm.HMAC256(secret);
+        log.info("signIn user:"+userCode);
         // 附带username信息
         return JWT.create()
                 .withClaim("userCode", userCode)

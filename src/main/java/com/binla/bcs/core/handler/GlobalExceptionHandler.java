@@ -46,7 +46,7 @@ public class GlobalExceptionHandler {
 
     // 参数校验异常
     @ExceptionHandler(BindException.class)
-    public ErrorResponse handleBindExcpetion(BindException e, HttpServletRequest request) {
+    public ErrorResponse handleBindException(BindException e, HttpServletRequest request) {
         log.error("参数校验异常！原因：",e);
         return ErrorResponse.fail(CodeMsg.PARAM_IS_INVALID, e, e.getMessage());
     }
