@@ -1,7 +1,7 @@
 package com.binla.bcs.core.shiro;
 
 import com.binla.bcs.core.jwt.JwtToken;
-import org.apache.shiro.authc.AuthenticationException;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.util.AntPathMatcher;
 import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
 import org.springframework.http.HttpStatus;
@@ -15,30 +15,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+@Slf4j
 public class JwtFilter extends BasicHttpAuthenticationFilter {
-    //@Autowired
-    //private RedisUtil redisUtil;
+
     private AntPathMatcher antPathMatcher =new AntPathMatcher();
+
     /**
-     * 执行登录认证(判断请求头是否带上token)
-     * @param request
-     * @param response
-     * @param mappedValue
-     * @return
+     * 登录认证
      */
     @Override
     protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
-        //log.info("JwtFilter-->>>isAccessAllowed-Method:init()");
-        //如果请求头不存在token,则可能是执行登陆操作或是游客状态访问,直接返回true
-        if (isLoginAttempt(request, response)) {
-            return true;
+        HttpServletRequest httpServletRequest = (HttpServletRequest) request;
+        List<String> accessUrlList = new ArrayList<>();
+        accessUrlList.add("/error");
+        accessUrlList.add("/api/auth/token");
+        accessUrlList.add("/swagger-ui.html");
+        accessUrlList.add("/swagger-resources/**");
+        accessUrlList.add("/webjars/**");
+        accessUrlList.add("/v2/api-docs");
+        for (String u : accessUrlList) {
+            if (antPathMatcher.match(u, httpServletRequest.getRequestURI()))
+                return true;
         }
-        //如果存在,则进入executeLogin方法执行登入,检查token 是否正确
-        try {
-            executeLogin(request, response);return true;
-        } catch (Exception e) {
-            throw new AuthenticationException("Token失效请重新登录");
-        }
+        if (isLoginAttempt(request, response))
+            return executeLogin(request, response);
+        return false;
     }
 
     /**
@@ -46,43 +47,26 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
      */
     @Override
     protected boolean isLoginAttempt(ServletRequest request, ServletResponse response) {
-        //log.info("JwtFilter-->>>isLoginAttempt-Method:init()");
         HttpServletRequest req = (HttpServletRequest) request;
-        List<String> accessUrlList = new ArrayList<>();
-        accessUrlList.add("/api/auth/token");
-        accessUrlList.add("/swagger-ui.html");
-        accessUrlList.add("/swagger-resources/**");
-        accessUrlList.add("/webjars/**");
-        accessUrlList.add("/v2/api-docs");
-        for(String item : accessUrlList)
-        {
-            if(antPathMatcher.match(item,req.getRequestURI())){
-                return true;
-            }
-        }
         String token = req.getHeader("Access-Token");
-        if (token == null) {
-            return false;
-        }
-//        Object o = redisUtil.get(CommonConstant.PREFIX_USER_TOKEN + token);
-//        if(ObjectUtils.isEmpty(o)){
-//            return false;
-//        }
-        //log.info("JwtFilter-->>>isLoginAttempt-Method:返回true");
-        return true;
+        return token != null;
     }
 
     /**
-     * 重写AuthenticatingFilter的executeLogin方法丶执行登陆操作
+     * 执行登录
      */
     @Override
-    protected boolean executeLogin(ServletRequest request, ServletResponse response) throws Exception {
-        //log.info("JwtFilter-->>>executeLogin-Method:init()");
+    protected boolean executeLogin(ServletRequest request, ServletResponse response) {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
-        String token = httpServletRequest.getHeader("Access-Token");//Access-Token
+        String token = httpServletRequest.getHeader("Access-Token");
         JwtToken jwtToken = new JwtToken(token);
-        // 提交给realm进行登入,如果错误他会抛出异常并被捕获, 反之则代表登入成功,返回true
-        getSubject(request, response).login(jwtToken);return true;
+        try {
+            getSubject(request, response).login(jwtToken);
+            return true;
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return false;
+        }
     }
 
     /**
@@ -90,7 +74,6 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
      */
     @Override
     protected boolean preHandle(ServletRequest request, ServletResponse response) throws Exception {
-        //log.info("JwtFilter-->>>preHandle-Method:init()");
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
         httpServletResponse.setHeader("Access-control-Allow-Origin", httpServletRequest.getHeader("Origin"));

@@ -12,5 +12,5 @@ public interface IUserService {
     User getByNamePassword(String username, String password);
     User getByCode(String code);
     User getByCodePassword(String code,String password);
-    List<String> getPermission(int id);
+    List<User> getAll();
 }

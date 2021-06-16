@@ -62,7 +62,8 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public List<String> getPermission(int id) {
-        return userRepository.getPermissionById(id);
+    public List<User> getAll() {
+        return userRepository.getAll();
     }
+
 }

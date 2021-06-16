@@ -19,7 +19,7 @@ CREATE TABLE users (
 	insert_date datetime NULL COMMENT '创建时间',
 	update_user VARCHAR ( 100 ) NULL COMMENT '更新用户',
 	update_date datetime NULL COMMENT '更新时间',
-	PRIMARY KEY ( CODE ) 
+	PRIMARY KEY (`code`) 
 );
 /*=========*/
 /* 角色表  */

@@ -13,8 +13,8 @@ public interface IUserRepository {
     User getByCode(String code);
     User getByCodePassword(String code,String password);
     User getById(int id);
+    List<User> getAll();
     boolean add(User entity);
     boolean deleteById(int id);
     boolean edit(User entity);
-    List<String> getPermissionById(int id);
 }

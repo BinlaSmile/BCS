@@ -8,7 +8,7 @@ import java.io.Serial;
 import java.io.Serializable;
 
 @Data
-@ApiModel(value = "返回结果实体类", description = "结果实体类")
+@ApiModel(value = "Response", description = "返回结果实体类")
 public class Response implements Serializable {
 
     @Serial

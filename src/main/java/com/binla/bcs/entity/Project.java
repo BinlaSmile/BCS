@@ -2,6 +2,7 @@ package com.binla.bcs.entity;
 
 import com.binla.bcs.entity.common.BaseEntity;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 

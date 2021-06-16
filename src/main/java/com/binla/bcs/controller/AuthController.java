@@ -26,10 +26,10 @@ public class AuthController {
 
     @PostMapping("/token")
     @ApiOperation(value = "获取授权")
-    public AuthResultModel getAuthToken (@RequestBody LoginModel request) {
+    public AuthResultModel getAuthToken(@RequestBody LoginModel request) {
         User user = userService.getByCodePassword(request.getUserCode(),request.getPassword());
         if(user!=null){
-            String token = JwtUtil.sign(request.getUserCode(), request.getPassword());
+            String token = JwtUtil.sign(request.getUserCode());
             return new AuthResultModel(user.getCode(),token);
         }
         else{
