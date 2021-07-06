@@ -1,25 +1,18 @@
-<!--
-status 级别有8个：ALL,TRACE, DEBUG, INFO, WARN, ERROR ,FATAL,OFF。是帮助开发者找错用的，它可以检测log4j 2的配置文件是否有错，也可以检测到死循环的logger
-monitorInterval log4j2 自动检测配置文件的时间间隔（单位：秒）
--->
+<!--级别：ALL,TRACE, DEBUG, INFO, WARN, ERROR ,FATAL,OFF-->
 <configuration status="OFF" monitorInterval="30">
     <Properties>
         <Property name="pattern">%d{yyyy-MM-dd HH:mm:ss,SSS}|%p|%c|%L|%m%n</Property>
         <Property name="logPath">logs</Property>
     </Properties>
     <Appenders>
-        <!--设置在控制台打印日志-->
-        <Console name="console" target="SYSTEM_OUT">
-            <PatternLayout pattern="${pattern}"/>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%style{%d{ISO8601}}{bright,green} %highlight{%-5level} [%style{%t}{bright,blue}] %style{%C{}}{bright,yellow}: %msg%n%style{%throwable}{red}"/>
         </Console>
-        <!--设置级别为 trace 日志输出到 trace.log 中-->
-        <RollingRandomAccessFile name="trace"
+
+        <RollingFile name="TraceLog"
                                  immediateFlush="false"
                                  fileName="${logPath}/trace.log"
                                  filePattern="${logPath}/trace-%d{yyyy-MM-dd}.log">
-            <Filters>
-                <ThresholdFilter level="TRACE"/>
-            </Filters>
             <PatternLayout pattern="${pattern}"/>
             <Policies>
                 <!-- 按天生成日志文件-->
@@ -27,8 +20,9 @@ monitorInterval log4j2 自动检测配置文件的时间间隔（单位：秒）
             </Policies>
             <!-- 最多保存日志文件的数目 -->
             <DefaultRolloverStrategy max="15"/>
-        </RollingRandomAccessFile>
-        <RollingRandomAccessFile name="error"
+        </RollingFile>
+
+        <RollingFile name="ErrorLog"
                                  immediateFlush="false"
                                  fileName="${logPath}/error.log"
                                  filePattern="${logPath}/error-%d{yyyy-MM-dd}.log">
@@ -40,19 +34,19 @@ monitorInterval log4j2 自动检测配置文件的时间间隔（单位：秒）
                 <TimeBasedTriggeringPolicy modulate="true" interval="1"/>
             </Policies>
             <DefaultRolloverStrategy max="60"/>
-        </RollingRandomAccessFile>
+        </RollingFile>
     </Appenders>
     <Loggers>
-        <Logger name="com.binla.bcs" level="DEBUG" additivity="true">
-            <AppenderRef ref="trace"/>
-            <AppenderRef ref="error"/>
-        </Logger>
-        <!-- org.springframework 只输出 ERROR 级别以上的日志 -->
+        <Logger name="com.binla.bcs" level="ALL" additivity="true"/>
+        <!-- 只输出 ERROR 级别以上的日志 -->
         <Logger name="org.springframework" level="ERROR"/>
-        <!-- org.apache 只输出 ERROR 级别以上的日志 -->
         <Logger name="org.apache" level="ERROR"/>
-        <Root level="DEBUG">
-            <AppenderRef ref="console"/>
+        <Logger name="com.zaxxer" level="ERROR"/>
+        <Logger name="springfox.documentation" level="ERROR"/>
+        <Root level="all">
+            <appender-ref ref="Console"/>
+            <appender-ref ref="TraceLog"/>
+            <appender-ref ref="ErrorLog"/>
         </Root>
     </Loggers>
 </configuration>

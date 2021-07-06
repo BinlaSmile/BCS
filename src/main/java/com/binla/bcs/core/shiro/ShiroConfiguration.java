@@ -1,5 +1,6 @@
 package com.binla.bcs.core.shiro;
 
+import com.binla.bcs.core.jwt.JwtFilter;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.mgt.DefaultSessionStorageEvaluator;
 import org.apache.shiro.mgt.DefaultSubjectDAO;

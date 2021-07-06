@@ -7,7 +7,6 @@ import java.util.List;
 
 @Repository
 public interface IUserRepository {
-
     User getByName(String userName);
     User getByNamePassword(String userName,String password);
     User getByCode(String code);

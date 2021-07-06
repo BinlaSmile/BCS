@@ -1,4 +1,4 @@
-package com.binla.bcs.core.shiro;
+package com.binla.bcs.core.jwt;
 
 import com.binla.bcs.core.jwt.JwtToken;
 import lombok.extern.slf4j.Slf4j;
