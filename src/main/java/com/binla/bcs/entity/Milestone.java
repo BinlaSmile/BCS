@@ -6,5 +6,5 @@ import lombok.Data;
 @Data
 public class Milestone extends BaseEntity {
     private String milestoneNo;
-    private String des;
+    private String desc;
 }

@@ -15,15 +15,13 @@ public class JwtUtil {
      */
     public static final long EXPIRE_TIME = 30 * 60 * 1000;
 
-    private static String SECRET = "TestSecretKey";
-
     /**
-     * 校验token是否正确
+     * 校验token
      */
-    public static boolean verify(String token, String userCode) {
+    public static boolean verify(String token, String userCode,String secret) {
         try {
             // 根据密码生成JWT效验器
-            Algorithm algorithm = Algorithm.HMAC256(SECRET);
+            Algorithm algorithm = Algorithm.HMAC256(secret);
             JWTVerifier verifier = JWT.require(algorithm).withClaim("userCode", userCode).build();
             verifier.verify(token);
             return true;
@@ -34,7 +32,7 @@ public class JwtUtil {
     }
 
     /**
-     * 获得token中的信息无需secret解密也能获得
+     * 无需secret从token中获得信息
      */
     public static String getUserCode(String token) {
         try {
@@ -49,9 +47,9 @@ public class JwtUtil {
     /**
      * 生成签名
      */
-    public static String sign(String userCode) {
+    public static String sign(String userCode,String secret) {
         Date date = new Date(System.currentTimeMillis() + EXPIRE_TIME);
-        Algorithm algorithm = Algorithm.HMAC256(SECRET);
+        Algorithm algorithm = Algorithm.HMAC256(secret);
         log.info("SignIn, userCode:{}",userCode);
         return JWT.create()
                 .withClaim("userCode", userCode)

@@ -1,14 +1,12 @@
 package com.binla.bcs.core.handler;
 
 import com.binla.bcs.core.BizException;
-import com.binla.bcs.domain.CodeMsg;
+import com.binla.bcs.domain.enums.CodeMsg;
 import com.binla.bcs.domain.ErrorResponse;
-import com.binla.bcs.domain.Response;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -58,4 +56,10 @@ public class GlobalExceptionHandler {
         return ErrorResponse.fail(CodeMsg.PARAM_IS_INVALID, e, e.getBindingResult().getAllErrors().get(0).getDefaultMessage());
     }
 
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ExceptionHandler(UnauthorizedException.class)
+    public ErrorResponse handleUnauthorizedException(UnauthorizedException e, HttpServletRequest request) {
+        log.error("用户权限不足：",e);
+        return ErrorResponse.fail(CodeMsg.PERMISSION_DENIED, e, e.getMessage());
+    }
 }

@@ -1,5 +1,6 @@
 package com.binla.bcs.domain;
 
+import com.binla.bcs.domain.enums.CodeMsg;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

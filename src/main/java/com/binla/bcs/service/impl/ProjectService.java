@@ -1,4 +1,4 @@
 package com.binla.bcs.service.impl;
 
-public class ItemServiceImpl {
+public class ProjectService {
 }

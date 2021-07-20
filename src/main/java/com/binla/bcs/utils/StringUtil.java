@@ -3,7 +3,7 @@ package com.binla.bcs.utils;
 public class StringUtil {
 
     public static boolean isNullOrEmpty(String str) {
-        return null == str || "".equals(str) || "null".equals(str);
+        return null == str || "".equals(str);
     }
 
     public static boolean isNullOrEmpty(Object obj) {

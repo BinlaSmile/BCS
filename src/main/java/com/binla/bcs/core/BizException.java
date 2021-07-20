@@ -1,6 +1,6 @@
 package com.binla.bcs.core;
 
-import com.binla.bcs.domain.CodeMsg;
+import com.binla.bcs.domain.enums.CodeMsg;
 import lombok.Data;
 
 @Data

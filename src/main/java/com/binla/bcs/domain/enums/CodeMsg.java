@@ -1,4 +1,4 @@
-package com.binla.bcs.domain;
+package com.binla.bcs.domain.enums;
 
 public enum CodeMsg {
 
@@ -14,8 +14,9 @@ public enum CodeMsg {
     NAME_OR_PASSWORD_ERROR(2000,"用户名或密码错误"),
     USER_NOT_EXISTS(2001,"用户不存在"),
     SESSION_NOT_EXISTS(2002,"session数据不存在"),
-    LOGIN_TIME_OUT(2003,"登陆已过期,请重新登陆");
-
+    LOGIN_TIME_OUT(2003,"登陆已过期,请重新登陆"),
+    TOKEN_INVALID(2004,"token校验未通过"),
+    PERMISSION_DENIED(2005,"用户权限不足");
     private final int code;
     private String message;
 

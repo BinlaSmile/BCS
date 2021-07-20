@@ -16,6 +16,6 @@ public class Project extends BaseEntity {
     private Date completionDate;
     private int priority;
     private String milestone;
-    private String des;
+    private String desc;
     private String addition;
 }

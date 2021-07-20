@@ -4,8 +4,7 @@ import com.binla.bcs.entity.common.BaseEntity;
 import lombok.Data;
 
 @Data
-public class Role extends BaseEntity {
-    private int id;
-    private String name;
+public class Permission extends BaseEntity {
+    private String code;
     private String desc;
 }

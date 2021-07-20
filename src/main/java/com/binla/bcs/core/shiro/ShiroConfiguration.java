@@ -13,10 +13,13 @@ import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreato
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
+import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 
 import javax.servlet.Filter;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Properties;
+
 @Configuration
 public class ShiroConfiguration {
     @Bean(name = "shiroFilter")

@@ -18,17 +18,16 @@ import java.util.List;
 @Slf4j
 public class JwtFilter extends BasicHttpAuthenticationFilter {
 
-    private AntPathMatcher antPathMatcher =new AntPathMatcher();
-
     /**
      * 登录认证
      */
     @Override
     protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
+        AntPathMatcher antPathMatcher =new AntPathMatcher();
         List<String> accessUrlList = new ArrayList<>();
         accessUrlList.add("/error");
-        accessUrlList.add("/api/auth/token");
+        accessUrlList.add("/api/auth/getToken");
         accessUrlList.add("/swagger-ui.html");
         accessUrlList.add("/swagger-resources/**");
         accessUrlList.add("/webjars/**");
