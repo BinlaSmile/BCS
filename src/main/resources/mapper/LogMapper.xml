@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.binla.bcs.repository.ILogRepository">
+
+    <sql id="BaseColumn">
+        id,
+        type,
+        content,
+        insert_user,
+        insert_date
+    </sql>
+
+    <resultMap id="logMap" type="com.binla.bcs.entity.Log">
+        <result column="insert_user" property="insertUser"/>
+        <result column="insert_date" property="insertDate"/>
+    </resultMap>
+
+    <select id="getPageCount" resultType="Integer">
+        SELECT count(1)
+        FROM log l
+        JOIN users u ON u.code = l.insert_user
+        <where>
+            <if test="condition != null and condition != ''">
+                (l.content LIKE CONCAT('%',#{condition},'%')
+                     OR l.insert_user LIKE CONCAT('%',#{condition},'%')
+                     OR u.code LIKE CONCAT('%',#{condition},'%'))
+            </if>
+            <if test="type != null and type != 0">
+                AND l.type = #{type}
+            </if>
+            <if test="beginDate != null and endDate != null">
+                AND l.insert_date BETWEEN #{beginDate} AND #{endDate}
+            </if>
+        </where>
+    </select>
+
+    <select id="getPageList" resultMap="logMap">
+        SELECT
+            l.id,
+            l.type,
+            l.content,
+            l.insert_user,
+            l.insert_date
+        FROM log l
+        JOIN users u ON u.code = l.insert_user
+        <where>
+            <if test="condition != null and condition != ''">
+                (l.content LIKE CONCAT('%',#{condition},'%')
+                     OR l.insert_user LIKE CONCAT('%',#{condition},'%')
+                     OR u.code LIKE CONCAT('%',#{condition},'%'))
+            </if>
+            <if test="type != null and type != 0">
+                AND l.type = #{type}
+            </if>
+            <if test="beginDate != null and endDate != null">
+                AND l.insert_date BETWEEN #{beginDate} AND #{endDate}
+            </if>
+        </where>
+        <if test="query.orderColumn !=null and query.orderColumn != '' and query.orderType != null and query.orderType != ''">
+        ORDER BY #{query.orderColumn} #{query.orderColumn.orderType}
+        </if>
+        LIMIT #{query.pageStart},#{query.pageLength}
+    </select>
+
+    <insert id="insert" >
+        INSERT INTO log (type,content,insert_user,insert_date)
+        VALUES (#{log.type},#{log.content},#{log.insertUser},#{log.insertDate});
+    </insert>
+
+</mapper>

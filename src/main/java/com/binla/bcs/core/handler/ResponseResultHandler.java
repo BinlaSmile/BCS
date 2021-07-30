@@ -42,7 +42,7 @@ public class ResponseResultHandler implements ResponseBodyAdvice<Object> {
                                   Class<? extends HttpMessageConverter<?>> arg3, ServerHttpRequest arg4, ServerHttpResponse arg5) {
         if (body instanceof ErrorResponse) {
             ErrorResponse error = (ErrorResponse) body;
-            return Response.error(error.getCode(), error.getMessage());
+            return Response.error(error.getCode(), error.getMessage() + " Exception:" + error.getException() );
         } else if (body instanceof Response) {
             return (Response) body;
         } else if  (body instanceof String) {

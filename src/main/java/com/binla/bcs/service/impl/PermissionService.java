@@ -1,8 +1,6 @@
 package com.binla.bcs.service.impl;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.binla.bcs.domain.constants.CacheConstant;
+import com.binla.bcs.domain.constants.SecurityConstant;
 import com.binla.bcs.entity.Permission;
 import com.binla.bcs.model.permission.PermissionInfoModel;
 import com.binla.bcs.repository.IPermissionRepository;
@@ -27,14 +25,14 @@ public class PermissionService implements IPermissionService {
         List<PermissionInfoModel> result = new ArrayList<>();
         List<Permission> permissions = new ArrayList<>();
         if(allowCache){
-            permissions = (List<Permission>) redisUtil.get(CacheConstant.ROLE_PERMISSION+roleId);
+            permissions = (List<Permission>) redisUtil.get(SecurityConstant.ROLE_PERMISSION+roleId);
         }
 
-        if(permissions == null || permissions.size() == 0)
+        if(permissions == null || permissions.size() == 0){
             permissions = permissionRepository.getByRoleId(roleId);
-
-        if(allowCache)
-            redisUtil.set(CacheConstant.ROLE_PERMISSION+roleId,permissions,600);
+            if(allowCache)
+                redisUtil.set(SecurityConstant.ROLE_PERMISSION+roleId,permissions,600);
+        }
 
         for(Permission item : permissions){
             result.add(new PermissionInfoModel(roleId,item.getCode(),item.getDesc()));

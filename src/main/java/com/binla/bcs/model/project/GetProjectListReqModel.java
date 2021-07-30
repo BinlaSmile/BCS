@@ -1,4 +1,4 @@
-package com.binla.bcs.model.project.request;
+package com.binla.bcs.model.project;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

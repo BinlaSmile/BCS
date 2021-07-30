@@ -5,8 +5,6 @@ import java.util.List;
 
 public class Page <T> implements Serializable {
 
-    private int startIndex;//起始页
-
     private int pageSize;//单页条数
 
     private int pageNumber;//当前页
@@ -19,15 +17,6 @@ public class Page <T> implements Serializable {
 
     public Page() {
         super();
-        // TODO Auto-generated constructor stub
-    }
-
-    public int getStartIndex() {
-        return startIndex = (this.getPageNumber()-1)*this.getPageSize();
-    }
-
-    public void setStartIndex(int startIndex) {
-        this.startIndex = startIndex;
     }
 
     public int getPageSize() {

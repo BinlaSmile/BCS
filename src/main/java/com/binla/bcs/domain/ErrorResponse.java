@@ -15,7 +15,7 @@ public class ErrorResponse {
 
     public static ErrorResponse fail(CodeMsg codeMsg, Throwable e, String message) {
         ErrorResponse errorResponse = ErrorResponse.fail(codeMsg, e);
-        errorResponse.setMessage(message);
+        errorResponse.setMessage(errorResponse.getMessage() + ": " + message);
         return errorResponse;
     }
 

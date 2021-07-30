@@ -1,8 +1,10 @@
 package com.binla.bcs.core.jwt;
 
-import com.binla.bcs.core.jwt.JwtToken;
+import com.auth0.jwt.exceptions.TokenExpiredException;
+import com.binla.bcs.domain.constants.SecurityConstant;
+import com.binla.bcs.service.IAuthService;
+import com.binla.bcs.utils.JwtUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.shiro.util.AntPathMatcher;
 import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -11,31 +13,19 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.List;
 
 
 @Slf4j
 public class JwtFilter extends BasicHttpAuthenticationFilter {
-
+    private IAuthService authService;
+    public JwtFilter(IAuthService authService){
+        this.authService = authService;
+    }
     /**
      * 登录认证
      */
     @Override
     protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
-        HttpServletRequest httpServletRequest = (HttpServletRequest) request;
-        AntPathMatcher antPathMatcher =new AntPathMatcher();
-        List<String> accessUrlList = new ArrayList<>();
-        accessUrlList.add("/error");
-        accessUrlList.add("/api/auth/getToken");
-        accessUrlList.add("/swagger-ui.html");
-        accessUrlList.add("/swagger-resources/**");
-        accessUrlList.add("/webjars/**");
-        accessUrlList.add("/v2/api-docs");
-        for (String u : accessUrlList) {
-            if (antPathMatcher.match(u, httpServletRequest.getRequestURI()))
-                return true;
-        }
         if (isLoginAttempt(request, response))
             return executeLogin(request, response);
         return false;
@@ -47,7 +37,7 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
     @Override
     protected boolean isLoginAttempt(ServletRequest request, ServletResponse response) {
         HttpServletRequest req = (HttpServletRequest) request;
-        String token = req.getHeader("Access-Token");
+        String token = req.getHeader(SecurityConstant.AUTH_HEADER);
         return token != null;
     }
 
@@ -56,16 +46,28 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
      */
     @Override
     protected boolean executeLogin(ServletRequest request, ServletResponse response) {
+        boolean result = false;
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
-        String token = httpServletRequest.getHeader("Access-Token");
-        JwtToken jwtToken = new JwtToken(token);
+        HttpServletResponse httpServletResponse = (HttpServletResponse) response;
+        String token = httpServletRequest.getHeader(SecurityConstant.AUTH_HEADER);
         try {
+            JwtToken jwtToken = new JwtToken(token);
             getSubject(request, response).login(jwtToken);
-            return true;
+            result = true;
         } catch (Exception e) {
-            log.error(e.getMessage());
-            return false;
+            Throwable throwable = e.getCause();
+            if (throwable instanceof TokenExpiredException){
+                try{
+                    String userCode = JwtUtil.getUserCode(token);
+                    token = authService.authLogin(userCode);
+                    result = true;
+                }catch (Exception ignored){}
+            }
         }
+        //将token装入返回消息中的header里
+        httpServletResponse.setHeader("Access-Control-Expose-Headers", SecurityConstant.AUTH_HEADER);
+        httpServletResponse.setHeader(SecurityConstant.AUTH_HEADER, token);
+        return result;
     }
 
     /**

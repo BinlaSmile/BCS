@@ -29,6 +29,7 @@ public class GlobalExceptionHandler {
      * @param request	request
      * @return	错误结果
      */
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(BizException.class)
     public ErrorResponse bizExceptionHandler(BizException e, HttpServletRequest request) {
         log.error("业务异常！原因: ", e.getMessage());
@@ -44,12 +45,14 @@ public class GlobalExceptionHandler {
     }
 
     // 参数校验异常
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(BindException.class)
-    public ErrorResponse handleBindException(BindException e, HttpServletRequest request) {
+    public ErrorResponse handleBindException(BindException e) {
         log.error("参数校验异常！原因：",e);
         return ErrorResponse.fail(CodeMsg.PARAM_IS_INVALID, e, e.getMessage());
     }
 
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ErrorResponse handleMethodArgumentNotValidException(MethodArgumentNotValidException e, HttpServletRequest request) {
         log.error("参数校验异常！原因：",e);

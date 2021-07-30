@@ -24,38 +24,18 @@
         <result column="update_date" property="updateDate"/>
     </resultMap>
 
-    <select id="countUser" resultType="Integer">
-        SELECT count(1)
-        FROM users
-    </select>
-
-    <select id="listUserPage" resultMap="userMap">
+    <select id="getByCode" resultMap="userMap">
         SELECT
         <include refid="BaseColumn"/>
         FROM users
-        limit #{currentPage},#{pageSize}
+        WHERE code = #{code}
     </select>
 
     <select id="getByName" resultMap="userMap">
         SELECT
         <include refid="BaseColumn"/>
         FROM users
-        WHERE username=#{userName}
-    </select>
-
-    <select id="getByNamePassword" resultMap="userMap">
-        SELECT
-        <include refid="BaseColumn"/>
-        FROM users
-        WHERE username=#{userName}
-        AND password=#{password}
-    </select>
-
-    <select id="getByCode" resultMap="userMap">
-        SELECT
-        <include refid="BaseColumn"/>
-        FROM users
-        WHERE code=#{code}
+        WHERE name=#{name}
     </select>
 
     <select id="getByCodePassword" resultMap="userMap">
@@ -66,10 +46,132 @@
         AND password=#{password}
     </select>
 
+    <select id="getByNamePassword" resultMap="userMap">
+        SELECT
+        <include refid="BaseColumn"/>
+        FROM users
+        WHERE name=#{name}
+        AND password=#{password}
+    </select>
+
     <select id="getAll" resultMap="userMap">
         SELECT
         <include refid="BaseColumn"/>
         FROM users
     </select>
 
+    <select id="getList" resultMap="userMap">
+        SELECT
+        <include refid="BaseColumn"/>
+        FROM users
+        <where>
+            <if test="condition != null and condition != ''">
+                (code LIKE CONCAT('%',#{condition},'%') OR name LIKE CONCAT('%',#{condition},'%'))
+            </if>
+            <if test="role != null and role != 0">
+                AND role = #{role}
+            </if>
+        </where>
+    </select>
+
+    <select id="getListByCodes" resultMap="userMap">
+        SELECT
+        <include refid="BaseColumn"/>
+        FROM users
+        WHERE code IN
+        <foreach item="code" collection="codes" separator="," open="(" close=")">
+            #{code}
+        </foreach>
+    </select>
+
+    <select id="getListByRoles" resultMap="userMap">
+        SELECT
+        <include refid="BaseColumn"/>
+        FROM users
+        WHERE role IN
+        <foreach item="role" collection="roles" separator="," open="(" close=")">
+            #{role}
+        </foreach>
+    </select>
+
+    <select id="getPageCount" resultType="Integer">
+        SELECT count(1)
+        FROM users
+        <where>
+            <if test="condition != null and condition != ''">
+                (code LIKE CONCAT('%',#{condition},'%') OR name LIKE CONCAT('%',#{condition},'%'))
+            </if>
+            <if test="role != null and role != 0">
+                AND role = #{role}
+            </if>
+        </where>
+    </select>
+
+    <select id="getPageList" resultMap="userMap">
+        SELECT
+        <include refid="BaseColumn"/>
+        FROM users
+        <where>
+            <if test="condition != null and condition != ''">
+                (code LIKE CONCAT('%',#{condition},'%') OR name LIKE CONCAT('%',#{condition},'%'))
+            </if>
+            <if test="role != null and role != 0">
+                AND role = #{role}
+            </if>
+        </where>
+        <if test="query.orderColumn !=null and query.orderColumn != '' and query.orderType != null and query.orderType != ''">
+            ORDER BY #{query.orderColumn} #{query.orderColumn.orderType}
+        </if>
+        LIMIT #{query.pageStart},#{query.pageLength}
+    </select>
+
+    <insert id="insert" >
+        INSERT INTO users (code,name,password,role,salt,pic,color,insert_user,insert_date,update_user,update_date)
+        VALUES (#{user.code},#{user.name},#{user.password},#{user.role},#{user.salt},#{user.pic},#{user.color},#{user.insertUser},#{user.insertDate},#{user.updateUser},#{user.updateDate});
+    </insert>
+
+    <update id="update">
+        UPDATE users
+        <set>
+            <if test="user.name != null and user.name !=''">
+                name = #{user.name},
+            </if>
+
+            <if test="user.password != null and user.password !=''">
+                password = #{user.password},
+            </if>
+
+            role = #{user.role},
+
+            <if test="user.salt != null and user.salt != ''">
+                salt = #{user.salt},
+            </if>
+
+            <if test="user.pic !=null and user.pic !=''">
+                pic = #{user.pic},
+            </if>
+
+            <if test="user.insertUser !=null and user.insertUser !=''">
+                insert_user = #{user.insertUser}
+            </if>
+
+            <if test="user.insertDate !=null and user.insertDate !=''">
+                insert_date = #{user.insertDate}
+            </if>
+
+            <if test="user.updateUser !=null and user.updateUser !=''">
+                update_user = #{user.updateUser}
+            </if>
+
+            <if test="user.updateDate !=null and user.updateDate !=''">
+                update_date = #{user.updateDate}
+            </if>
+        </set>
+        WHERE code = #{user.code}
+    </update>
+
+    <delete id="deleteByCode">
+        DELETE FROM users
+        WHERE code = #{code}
+    </delete>
 </mapper>

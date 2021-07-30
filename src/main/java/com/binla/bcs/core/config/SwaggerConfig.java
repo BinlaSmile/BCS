@@ -1,5 +1,6 @@
 package com.binla.bcs.core.config;
 
+import com.binla.bcs.domain.constants.SecurityConstant;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -26,7 +27,7 @@ public class SwaggerConfig {
     public Docket createRestApi() {
         ParameterBuilder ticketPar = new ParameterBuilder();
         List<Parameter> pars = new ArrayList<>();
-        ticketPar.name("Access-Token").description("token")
+        ticketPar.name(SecurityConstant.AUTH_HEADER).description("token")
                 .modelRef(new ModelRef("string")).parameterType("header")
                 .required(false).build(); //header中的ticket参数非必填，传空也可以
         pars.add(ticketPar.build());    //根据每个方法名也知道当前方法在设置什么参数

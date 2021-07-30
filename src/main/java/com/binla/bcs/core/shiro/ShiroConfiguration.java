@@ -1,6 +1,7 @@
 package com.binla.bcs.core.shiro;
 
 import com.binla.bcs.core.jwt.JwtFilter;
+import com.binla.bcs.service.IAuthService;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.mgt.DefaultSessionStorageEvaluator;
 import org.apache.shiro.mgt.DefaultSubjectDAO;
@@ -23,17 +24,22 @@ import java.util.Properties;
 @Configuration
 public class ShiroConfiguration {
     @Bean(name = "shiroFilter")
-    public ShiroFilterFactoryBean shiroFilterFactoryBean(SecurityManager securityManager) {
+    public ShiroFilterFactoryBean shiroFilterFactoryBean(SecurityManager securityManager, IAuthService authService) {
         ShiroFilterFactoryBean factoryBean = new ShiroFilterFactoryBean();
         factoryBean.setSecurityManager(securityManager);
 
         // 在 Shiro过滤器链上加入 JWTFilter
         Map<String, Filter> filters = new LinkedHashMap<>();
-        filters.put("jwt", new JwtFilter());
+        filters.put("jwt", new JwtFilter(authService));
         factoryBean.setFilters(filters);
 
         //shiro过滤链
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
+        filterChainDefinitionMap.put("/api/auth","anon");
+        filterChainDefinitionMap.put("/swagger-ui.html","anon");
+        filterChainDefinitionMap.put("/swagger-resources/**","anon");
+        filterChainDefinitionMap.put("/webjars/**","anon");
+        filterChainDefinitionMap.put("/v2/api-docs","anon");
         filterChainDefinitionMap.put("/**", "jwt");
 
         factoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);

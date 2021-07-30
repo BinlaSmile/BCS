@@ -28,3 +28,9 @@ mybatis:
 
 logging:
   config: classpath:log4j2.xml
+
+jwt:
+  # token有效时间/分钟
+  tokenExpireTime: 10
+  # refresh-token有效时间/分钟
+  refreshExpireTime: 1440

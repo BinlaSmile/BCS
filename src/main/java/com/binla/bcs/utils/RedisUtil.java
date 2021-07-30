@@ -1,6 +1,8 @@
 package com.binla.bcs.utils;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
@@ -10,6 +12,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+@Slf4j
 @Component
 public class RedisUtil {
     @Autowired
@@ -586,5 +589,47 @@ public class RedisUtil {
             return 0;
         }
 
+    }
+
+    public Long getSeqNext(String key, long value) {
+        return redisTemplate.execute((RedisCallback<Long>) connection -> {
+            return connection.incrBy(key.getBytes(), value);
+        });
+
+    }
+
+    public boolean exists(String key) {
+        return redisTemplate.execute((RedisCallback<Boolean>) connection -> {
+            return connection.exists(key.getBytes());
+        });
+    }
+
+    public boolean getLock(String lockName, int expireTime) {
+        try {
+            boolean isExist = exists(lockName);
+            if(!isExist){
+                getSeqNext(lockName,0);
+                expire(lockName,expireTime<=0? 60 * 60:expireTime);
+            }
+            long reVal = getSeqNext(lockName,1);
+            if(1L==reVal){
+                //获取锁
+                return true;
+            }else {
+                log.info("获取redis锁:"+lockName+",失败"+reVal);
+            }
+        } catch (Exception e) {
+            log.error("获取redis锁失败:"+lockName, e);
+        }
+        return false;
+    }
+
+    public void releaseLock(String lockName) {
+        try {
+            expire(lockName, 10);
+            log.info("释放redis锁:"+lockName+",成功");
+        } catch (Exception e) {
+            log.error("释放redis锁失败:"+lockName, e);
+        }
     }
 }

@@ -1,19 +1,26 @@
 package com.binla.bcs.repository;
 
+import com.binla.bcs.domain.QueryCondition;
 import com.binla.bcs.entity.User;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
 public interface IUserRepository {
-    User getByName(String userName);
-    User getByNamePassword(String userName,String password);
     User getByCode(String code);
+    User getByName(String name);
     User getByCodePassword(String code,String password);
-    User getById(int id);
+    User getByNamePassword(String name,String password);
     List<User> getAll();
-    boolean add(User entity);
-    boolean deleteById(int id);
-    boolean edit(User entity);
+    List<User> getList(String condition, Integer role);
+    List<User> getListByCodes(@Param("codes")List<String> codes);
+    List<User> getListByRoles(@Param("roles")List<Integer> roles);
+    int getPageCount(String condition, Integer role);
+    List<User> getPageList(String condition, Integer role, @Param("query") QueryCondition query);
+
+    void insert(@Param("user")User user);
+    void update(@Param("user")User user);
+    void deleteByCode(String code);
 }

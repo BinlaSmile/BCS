@@ -38,7 +38,7 @@ CREATE TABLE role (
 /*=========*/
 DROP TABLE IF EXISTS permission;
 CREATE TABLE permission (
-                      `url` VARCHAR ( 100 ) NOT NULL COMMENT '权限地址',
+                      `code` VARCHAR ( 10 ) NOT NULL COMMENT '权限Code',
                       `desc` VARCHAR ( 100 ) NOT NULL COMMENT '权限描述',
                       insert_user VARCHAR ( 20 ) NULL COMMENT '创建用户',
                       insert_date datetime NULL COMMENT '创建时间',
@@ -135,6 +135,15 @@ CREATE TABLE milestone (
                            PRIMARY KEY (milestone_no)
 );
 
+DROP TABLE IF EXISTS log;
+CREATE TABLE log (
+										id INT NOT NULL auto_increment COMMENT 'id',
+										type INT NOT NULL COMMENT '日志类型id',
+										content text DEFAULT NULL COMMENT '日志内容',
+                    insert_user VARCHAR ( 100 ) NULL COMMENT '创建用户',
+                    insert_date datetime NULL COMMENT '创建时间',
+                    PRIMARY KEY (id)
+);
 
 -- admin账号 admin  123456789
 INSERT INTO users ( `code`, `name`, `password`, role, salt, insert_user, insert_date, update_user, update_date)
@@ -145,10 +154,16 @@ VALUES ('1', '管理员', '系统管理员', 'SYSTEM', NOW(),'SYSTEM', NOW()),
        ('2', '用户', '系统用户', 'SYSTEM', NOW(),'SYSTEM', NOW());
 
 INSERT INTO permission (`code`, `desc`, insert_user, insert_date, update_user, update_date)
-VALUES ('U0001', '查询用户列表', 'SYSTEM', NOW(),'SYSTEM', NOW());
+VALUES ('U0001', '查询用户列表', 'SYSTEM', NOW(),'SYSTEM', NOW()),
+			('U0002', '添加用户', 'SYSTEM', NOW(),'SYSTEM', NOW()),
+			('U0003', '编辑用户', 'SYSTEM', NOW(),'SYSTEM', NOW()),
+			('U0004', '删除用户', 'SYSTEM', NOW(),'SYSTEM', NOW());
 
 INSERT INTO role_permission (role_id, permission_code, insert_user, insert_date, update_user, update_date)
-VALUES ('1', '/user/getList', 'SYSTEM', NOW(),'SYSTEM', NOW());
+VALUES ('1', 'U0001', 'SYSTEM', NOW(),'SYSTEM', NOW()),
+			('1', 'U0002', 'SYSTEM', NOW(),'SYSTEM', NOW()),
+			('1', 'U0003', 'SYSTEM', NOW(),'SYSTEM', NOW()),
+			('1', 'U0004', 'SYSTEM', NOW(),'SYSTEM', NOW());
 
 INSERT INTO milestone (milestone_no, `desc`,  insert_user, insert_date, update_user, update_date)
 VALUES

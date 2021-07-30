@@ -3,7 +3,7 @@ package com.binla.bcs.controller;
 import com.binla.bcs.entity.Project;
 import com.binla.bcs.model.common.PageReqModel;
 import com.binla.bcs.domain.Response;
-import com.binla.bcs.model.project.request.GetProjectListReqModel;
+import com.binla.bcs.model.project.GetProjectListReqModel;
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.*;
 
