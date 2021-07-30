@@ -1,0 +1,328 @@
+{
+	"info": {
+		"_postman_id": "448976f0-b320-437c-bbf6-34244633f579",
+		"name": "BCS",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Token",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userCode\": \"admin\",\r\n    \"password\":\"123456789\" \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8088/api/auth",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8088",
+							"path": [
+								"api",
+								"auth"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "GetList",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Access-Token",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2Mjc2MjcyOTYsInVzZXJDb2RlIjoiYWRtaW4ifQ.I9RPYdP4ga7e7H-MLAIwAf_UtRL9VzdyXtEDSrA5Y08",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8088/api/user/list",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8088",
+							"path": [
+								"api",
+								"user",
+								"list"
+							],
+							"query": [
+								{
+									"key": "condition",
+									"value": "admin",
+									"description": "用户名、用户Code",
+									"disabled": true
+								},
+								{
+									"key": "role",
+									"value": "1",
+									"description": "角色id",
+									"disabled": true
+								},
+								{
+									"key": "orderColumn",
+									"value": null,
+									"description": "排序列",
+									"disabled": true
+								},
+								{
+									"key": "orderType",
+									"value": null,
+									"description": "排序方式 (ASC DESC)",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetPageList",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Access-Token",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2Mjc2MjcyOTYsInVzZXJDb2RlIjoiYWRtaW4ifQ.I9RPYdP4ga7e7H-MLAIwAf_UtRL9VzdyXtEDSrA5Y08",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8088/api/user/pageList?pageIndex=0&pageSize=10",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8088",
+							"path": [
+								"api",
+								"user",
+								"pageList"
+							],
+							"query": [
+								{
+									"key": "condition",
+									"value": "admin",
+									"description": "用户名、用户Code",
+									"disabled": true
+								},
+								{
+									"key": "role",
+									"value": "1",
+									"description": "角色id",
+									"disabled": true
+								},
+								{
+									"key": "orderColumn",
+									"value": null,
+									"description": "排序列",
+									"disabled": true
+								},
+								{
+									"key": "orderType",
+									"value": null,
+									"description": "排序方式 (ASC DESC)",
+									"disabled": true
+								},
+								{
+									"key": "pageIndex",
+									"value": "0",
+									"description": "分页当前页数 （起始0）"
+								},
+								{
+									"key": "pageSize",
+									"value": "10",
+									"description": "分页每页条数"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetInfo",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Access-Token",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2Mjc2MjcyOTYsInVzZXJDb2RlIjoiYWRtaW4ifQ.I9RPYdP4ga7e7H-MLAIwAf_UtRL9VzdyXtEDSrA5Y08",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8088/api/user/admin",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8088",
+							"path": [
+								"api",
+								"user",
+								"admin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Access-Token",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2Mjc2Mzg4MDUsInVzZXJDb2RlIjoiYWRtaW4ifQ.ivtLyPUBEuaaNX_EClzEL0RGtN5230Q5HlwySHCKpCc",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"code\":\"Test\",\r\n    \"name\":\"Test\",\r\n    \"password\":\"\",\r\n    \"role\":0,\r\n    \"pic\":\"\",\r\n    \"color\":\"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8088/api/user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8088",
+							"path": [
+								"api",
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Access-Token",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2Mjc2MjkyOTcsInVzZXJDb2RlIjoiYWRtaW4ifQ.ubBE6MyIAE_BzgHzjTSJiI3DmduXxD9MKRbPmwmTVRM",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"Test\",\r\n    \"role\":1,\r\n    \"pic\":\"\",\r\n    \"color\":\"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8088/api/user/test",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8088",
+							"path": [
+								"api",
+								"user",
+								"test"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ChangePassword",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Access-Token",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2Mjc2MjkyOTcsInVzZXJDb2RlIjoiYWRtaW4ifQ.ubBE6MyIAE_BzgHzjTSJiI3DmduXxD9MKRbPmwmTVRM",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8088/api/user/test",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8088",
+							"path": [
+								"api",
+								"user",
+								"test"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Access-Token",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2Mjc2MjkyOTcsInVzZXJDb2RlIjoiYWRtaW4ifQ.ubBE6MyIAE_BzgHzjTSJiI3DmduXxD9MKRbPmwmTVRM",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8088/api/user/test",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8088",
+							"path": [
+								"api",
+								"user",
+								"test"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

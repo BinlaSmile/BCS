@@ -56,7 +56,6 @@ public class UserController {
     @PostMapping
     public Response create(@RequestBody @Valid CreateUserReqModel model)
     {
-        userService
         return Response.success();
     }
 
