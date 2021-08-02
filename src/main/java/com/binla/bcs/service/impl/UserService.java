@@ -1,25 +1,32 @@
 package com.binla.bcs.service.impl;
 
+import com.binla.bcs.core.BizException;
 import com.binla.bcs.domain.Page;
 import com.binla.bcs.domain.QueryCondition;
+import com.binla.bcs.domain.enums.CodeMsg;
+import com.binla.bcs.entity.Log;
 import com.binla.bcs.entity.Role;
 import com.binla.bcs.entity.User;
 import com.binla.bcs.entity.common.BaseEntity;
-import com.binla.bcs.model.user.request.CreateUserReqModel;
-import com.binla.bcs.model.user.request.GetPageUserReqModel;
-import com.binla.bcs.model.user.request.GetUserReqModel;
+import com.binla.bcs.model.user.request.*;
 import com.binla.bcs.model.user.response.UserDataModel;
 import com.binla.bcs.model.user.response.UserInfoModel;
 import com.binla.bcs.model.user.response.UserModel;
 import com.binla.bcs.model.user.response.UserPageInfoModel;
+import com.binla.bcs.repository.ILogRepository;
 import com.binla.bcs.repository.IRoleRepository;
 import com.binla.bcs.repository.IUserRepository;
+import com.binla.bcs.service.IAuthService;
 import com.binla.bcs.service.IUserService;
+import com.binla.bcs.utils.EncryptUtil;
+import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,6 +35,11 @@ public class UserService implements IUserService {
     private IUserRepository userRepository;
     @Autowired
     private IRoleRepository roleRepository;
+    @Autowired
+    private ILogRepository logRepository;
+
+    @Autowired
+    private IAuthService authService;
 
     @Override
     public UserDataModel getDataByCode(String code) {
@@ -126,17 +138,124 @@ public class UserService implements IUserService {
 
     @Override
     public void add(CreateUserReqModel model) {
+        //检查用户代码是否重复
+        var entity = userRepository.getByCode(model.getCode());
+        if(entity!=null)
+            throw new BizException(CodeMsg.USER_EXISTS);
 
+        var user = new User();
+        user.setCode(model.getCode());
+        user.setName(model.getName());
+
+        //随机生成一个uuid作为用户的加密盐
+        var salt = UUID.randomUUID().toString().replaceAll("-","");
+        //使用密码+加密盐生成加密后的密码
+        var eu = EncryptUtil.getInstance();
+        var enPassword = eu.MD5(model.getPassword(),salt);
+        user.setPassword(enPassword);
+        user.setSalt(salt);
+        user.setPic(model.getPic());
+        user.setColor(model.getColor());
+        user.setRole(model.getRole());
+
+        var currentUserCode =authService.getCurrentUserCode();
+        var dateNow = new Date();
+        user.setInsertUser(currentUserCode);
+        user.setInsertDate(dateNow);
+        user.setUpdateUser(currentUserCode);
+        user.setUpdateDate(dateNow);
+
+        userRepository.insert(user);
+        //日志
+        logRepository.insert(new Log(2,"创建用户["+model.getCode()+"]",currentUserCode,dateNow));
+    }
+
+    @Override
+    public void edit(String code, EditUserReqModel model) {
+        //检查用户是否存在
+        var entity = userRepository.getByCode(code);
+        if(entity == null)
+            throw new BizException(CodeMsg.USER_NOT_EXISTS);
+
+        var user = new User();
+        user.setCode(entity.getCode());
+        user.setName(model.getName());
+        user.setPassword(entity.getPassword());
+        user.setSalt(entity.getSalt());
+        user.setColor(model.getColor());
+        user.setPic(model.getPic());
+        user.setRole(model.getRole());
+        user.setInsertUser(entity.getInsertUser());
+        user.setInsertDate(entity.getInsertDate());
+        var currentUserCode =authService.getCurrentUserCode();
+        var dateNow = new Date();
+        user.setUpdateUser(currentUserCode);
+        user.setUpdateDate(dateNow);
+        userRepository.update(user);
+        //日志
+        var logStr = new StringBuilder("修改用户["+code+"]");
+        if(!entity.getName().equals(model.getName()))
+            logStr.append(",用户名由:["+entity.getName()+"] 变更为: ["+model.getName()+"]");
+        if(!entity.getColor().equals(model.getColor()))
+            logStr.append(",颜色标识由:["+entity.getColor()+"] 变更为: ["+model.getColor()+"]");
+        if(!entity.getPic().equals(model.getPic()))
+            logStr.append(",变更头像");
+        if(entity.getRole() != model.getRole()){
+            var roleIdList = new ArrayList<Integer>();
+            roleIdList.add(entity.getRole());
+            roleIdList.add(model.getRole());
+            var roleList = roleRepository.getByIds(roleIdList);
+            var entityRole = roleList.stream().filter(r->r.getId()==entity.getRole()).findFirst().orElse(null);
+            var modelRole = roleList.stream().filter(r->r.getId()==model.getRole()).findFirst().orElse(null);
+            var entityRoleName = entityRole.getName();
+            var modelRoleName = modelRole.getName();
+            logStr.append(",用户角色由["+entity.getRole()+":"+entityRoleName+"] 变更为: ["+model.getRole()+":"+modelRoleName+"]");
+        }
+        logRepository.insert(new Log(2,logStr.toString(),currentUserCode,dateNow));
+    }
+
+    @Override
+    public void editPassword(String code, ChangePasswordReqModel model) {
+        //检查用户是否存在
+        var entity = userRepository.getByCode(code);
+        if(entity == null)
+            throw new BizException(CodeMsg.USER_NOT_EXISTS);
+        //检查新旧密码是否重复
+        if(model.getNewPassword().equals(model.getOldPassword()))
+            throw new BizException(CodeMsg.DUPLICATE_PASSWORD);
+
+        var eu = EncryptUtil.getInstance();
+        var enOldPassword = eu.MD5(model.getOldPassword(),entity.getSalt());
+        //检查原始密码是否一致
+        if(!enOldPassword.equals(entity.getPassword()))
+            throw new BizException(CodeMsg.PASSWORD_ERROR);
+
+        //随机生成一个新的uuid作为用户的加密盐
+        var salt = UUID.randomUUID().toString().replaceAll("-","");
+        //生成新的加密密码
+        var enNewPassword = eu.MD5(model.getNewPassword(),salt);
+        entity.setSalt(salt);
+        entity.setPassword(enNewPassword);
+        var currentUserCode =authService.getCurrentUserCode();
+        var dateNow = new Date();
+        entity.setUpdateUser(currentUserCode);
+        entity.setUpdateDate(dateNow);
+        userRepository.update(entity);
+        logRepository.insert(new Log(2,"修改用户["+code+"],密码变更",currentUserCode,dateNow));
     }
 
     @Override
     public void delete(String code) {
+        //检查用户是否存在
+        var entity = userRepository.getByCode(code);
+        if(entity == null)
+            throw new BizException(CodeMsg.USER_NOT_EXISTS);
 
-    }
-
-    @Override
-    public void edit(User entity) {
-
+        var currentUserCode =authService.getCurrentUserCode();
+        var dateNow = new Date();
+        userRepository.deleteByCode(code);
+        //日志
+        logRepository.insert(new Log(2,"删除用户["+code+"]",currentUserCode,dateNow));
     }
 
 }

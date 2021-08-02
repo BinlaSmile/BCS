@@ -151,19 +151,23 @@
                 pic = #{user.pic},
             </if>
 
-            <if test="user.insertUser !=null and user.insertUser !=''">
-                insert_user = #{user.insertUser}
+            <if test="user.color !=null and user.color !=''">
+                color = #{user.color},
             </if>
 
-            <if test="user.insertDate !=null and user.insertDate !=''">
-                insert_date = #{user.insertDate}
+            <if test="user.insertUser !=null and user.insertUser !=''">
+                insert_user = #{user.insertUser},
+            </if>
+
+            <if test="user.insertDate !=null">
+                insert_date = #{user.insertDate},
             </if>
 
             <if test="user.updateUser !=null and user.updateUser !=''">
-                update_user = #{user.updateUser}
+                update_user = #{user.updateUser},
             </if>
 
-            <if test="user.updateDate !=null and user.updateDate !=''">
+            <if test="user.updateDate !=null">
                 update_date = #{user.updateDate}
             </if>
         </set>

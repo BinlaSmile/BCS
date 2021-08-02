@@ -1,6 +1,5 @@
 package com.binla.bcs.service;
 
-import com.binla.bcs.entity.User;
 import com.binla.bcs.model.auth.CurrentUserModel;
 
 public interface IAuthService {
@@ -23,5 +22,5 @@ public interface IAuthService {
 
     String getCurrentUserCode();
 
-    boolean logout();
+    void logout();
 }

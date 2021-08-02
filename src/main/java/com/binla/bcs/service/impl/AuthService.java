@@ -1,8 +1,11 @@
 package com.binla.bcs.service.impl;
 
+import com.auth0.jwt.exceptions.TokenExpiredException;
+import com.binla.bcs.core.BizException;
 import com.binla.bcs.core.jwt.JwtToken;
 import com.binla.bcs.core.properties.JwtProperties;
 import com.binla.bcs.domain.constants.SecurityConstant;
+import com.binla.bcs.domain.enums.CodeMsg;
 import com.binla.bcs.entity.Log;
 import com.binla.bcs.entity.User;
 import com.binla.bcs.model.auth.CurrentUserModel;
@@ -14,6 +17,7 @@ import com.binla.bcs.utils.JwtUtil;
 import com.binla.bcs.utils.RedisUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,6 +40,9 @@ public class AuthService implements IAuthService {
         String refreshTokenKey= SecurityConstant.AUTH_REFRESH_TOKEN + userCode;
         try {
             User user = userRepository.getByCode(userCode);
+            if(user==null)
+                throw new BizException(CodeMsg.USER_NOT_EXISTS);
+
             EncryptUtil eu = EncryptUtil.getInstance();
             String enPassword = eu.MD5(password,user.getSalt());
             String token = JwtUtil.sign(userCode,enPassword);
@@ -49,7 +56,10 @@ public class AuthService implements IAuthService {
         } catch (Exception e) {
             redisUtil.del(refreshTokenKey);
             log.error(e.getMessage());
-            return null;
+            if (e instanceof AuthenticationException)
+                throw new BizException(CodeMsg.NAME_OR_PASSWORD_ERROR);
+
+            throw e;
         }
     }
 
@@ -62,6 +72,9 @@ public class AuthService implements IAuthService {
         if(locked){
             try{
                 User user = userRepository.getByCode(userCode);
+                if(user==null)
+                    throw new BizException(CodeMsg.USER_NOT_EXISTS);
+
                 token = JwtUtil.sign(userCode,user.getPassword());
                 //更新RefreshToken缓存的时间戳
                 Long expireTime = JwtUtil.getExpireTime(token);
@@ -70,7 +83,7 @@ public class AuthService implements IAuthService {
                 subject.login(new JwtToken(token));
             }catch (Exception e){
                 redisUtil.del(refreshTokenKey);
-                return null;
+                throw e;
             }
         }
         redisUtil.releaseLock(lockName);
@@ -88,7 +101,12 @@ public class AuthService implements IAuthService {
     }
 
     @Override
-    public boolean logout() {
-        return false;
+    public void logout() {
+        Subject subject = SecurityUtils.getSubject();
+        var currentUserCode = ((CurrentUserModel)subject.getPrincipal()).getCode();
+        String refreshTokenKey= SecurityConstant.AUTH_REFRESH_TOKEN + currentUserCode;
+        subject.logout();
+        redisUtil.del(refreshTokenKey);
+        logRepository.insert(new Log(1,"退出登录",currentUserCode,new Date()));
     }
 }

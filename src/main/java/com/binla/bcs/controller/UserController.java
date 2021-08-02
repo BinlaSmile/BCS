@@ -3,17 +3,14 @@ package com.binla.bcs.controller;
 import com.binla.bcs.core.annotation.ResponseResult;
 import com.binla.bcs.domain.Page;
 import com.binla.bcs.domain.Response;
-import com.binla.bcs.model.user.request.CreateUserReqModel;
-import com.binla.bcs.model.user.request.EditUserReqModel;
-import com.binla.bcs.model.user.request.GetPageUserReqModel;
-import com.binla.bcs.model.user.request.GetUserReqModel;
+import com.binla.bcs.model.user.request.*;
 import com.binla.bcs.model.user.response.UserInfoModel;
 import com.binla.bcs.model.user.response.UserPageInfoModel;
 import com.binla.bcs.service.IUserService;
 import io.swagger.annotations.Api;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.annotation.Validated;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -47,29 +44,39 @@ public class UserController {
 
     @RequiresPermissions("U0001")
     @GetMapping("/{code}")
-    public UserInfoModel getInfo(@PathVariable String code)
-    {
+    public UserInfoModel getInfo(@PathVariable String code) {
         return userService.getInfoByCode(code);
     }
 
     @RequiresPermissions("U0002")
     @PostMapping
-    public Response create(@RequestBody @Valid CreateUserReqModel model)
-    {
+    @Transactional(rollbackFor = Exception.class)
+    public Response create(@RequestBody @Valid CreateUserReqModel model) {
+        userService.add(model);
         return Response.success();
     }
 
     @RequiresPermissions("U0003")
     @PutMapping("/{code}")
-    public Response edit(@PathVariable String code, @RequestBody EditUserReqModel model)
-    {
+    @Transactional(rollbackFor = Exception.class)
+    public Response edit(@PathVariable String code, @RequestBody @Valid EditUserReqModel model) {
+        userService.edit(code, model);
+        return Response.success();
+    }
+
+    @RequiresPermissions("U0003")
+    @PatchMapping("/{code}/password")
+    @Transactional(rollbackFor = Exception.class)
+    public Response editPassword(@PathVariable String code, @RequestBody @Valid ChangePasswordReqModel model){
+        userService.editPassword(code,model);
         return Response.success();
     }
 
     @RequiresPermissions("U0004")
     @DeleteMapping("/{code}")
-    public Response delete(@PathVariable String code)
-    {
+    @Transactional(rollbackFor = Exception.class)
+    public Response delete(@PathVariable String code) {
+        userService.delete(code);
         return Response.success();
     }
 }

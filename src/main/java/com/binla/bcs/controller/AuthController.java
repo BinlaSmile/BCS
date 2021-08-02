@@ -2,6 +2,7 @@ package com.binla.bcs.controller;
 
 import com.binla.bcs.core.BizException;
 import com.binla.bcs.core.annotation.ResponseResult;
+import com.binla.bcs.domain.Response;
 import com.binla.bcs.domain.constants.SecurityConstant;
 import com.binla.bcs.model.auth.AuthResultModel;
 import com.binla.bcs.model.auth.LoginModel;
@@ -29,13 +30,16 @@ public class AuthController {
     @ResponseResult
     public AuthResultModel getAuthToken(@RequestBody LoginModel request, HttpServletResponse response) {
         String token = authService.authLogin(request.getUserCode(),request.getPassword());
-        if(!StringUtil.isNullOrEmpty(token)){
-            response.setHeader(SecurityConstant.AUTH_HEADER, token);
-            response.setHeader("Access-Control-Expose-Headers", SecurityConstant.AUTH_HEADER);
-            return new AuthResultModel(request.getUserCode(),token);
-        }
-        else
-            throw new BizException(CodeMsg.NAME_OR_PASSWORD_ERROR);
+        response.setHeader(SecurityConstant.AUTH_HEADER, token);
+        response.setHeader("Access-Control-Expose-Headers", SecurityConstant.AUTH_HEADER);
+        return new AuthResultModel(request.getUserCode(),token);
     }
 
+    @DeleteMapping("/logout")
+    @ApiOperation(value = "当前用户退出登录")
+    @ResponseResult
+    public Response authLogout(){
+        authService.logout();
+        return Response.success();
+    }
 }

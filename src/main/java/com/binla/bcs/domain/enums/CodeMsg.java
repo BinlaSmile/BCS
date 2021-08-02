@@ -16,7 +16,10 @@ public enum CodeMsg {
     SESSION_NOT_EXISTS(2002,"session数据不存在"),
     LOGIN_TIME_OUT(2003,"登陆已过期,请重新登陆"),
     TOKEN_INVALID(2004,"token校验未通过"),
-    PERMISSION_DENIED(2005,"用户权限不足");
+    PERMISSION_DENIED(2005,"用户权限不足"),
+    USER_EXISTS(2006,"用户已存在"),
+    DUPLICATE_PASSWORD (2007,"新旧密码不能重复"),
+    PASSWORD_ERROR(2008,"用户密码错误");
     private final int code;
     private String message;
 
