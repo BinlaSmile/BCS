@@ -38,6 +38,27 @@
 					"response": []
 				},
 				{
+					"name": "GetCurrentUserInfo",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8088/api/auth/currentUser",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8088",
+							"path": [
+								"api",
+								"auth",
+								"currentUser"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Logout",
 					"request": {
 						"method": "DELETE",
