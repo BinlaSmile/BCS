@@ -120,7 +120,7 @@
             </if>
         </where>
         <if test="query.orderColumn !=null and query.orderColumn != '' and query.orderType != null and query.orderType != ''">
-            ORDER BY #{query.orderColumn} #{query.orderColumn.orderType}
+            ORDER BY ${query.orderColumn} ${query.orderType}
         </if>
         LIMIT #{query.pageStart},#{query.pageLength}
     </select>
