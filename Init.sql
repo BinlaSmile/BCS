@@ -157,13 +157,15 @@ INSERT INTO permission (`code`, `desc`, insert_user, insert_date, update_user, u
 VALUES ('U0001', '查询用户列表', 'SYSTEM', NOW(),'SYSTEM', NOW()),
 			('U0002', '添加用户', 'SYSTEM', NOW(),'SYSTEM', NOW()),
 			('U0003', '编辑用户', 'SYSTEM', NOW(),'SYSTEM', NOW()),
-			('U0004', '删除用户', 'SYSTEM', NOW(),'SYSTEM', NOW());
+			('U0004', '删除用户', 'SYSTEM', NOW(),'SYSTEM', NOW()),
+			('R0001', '查询角色列表', 'SYSTEM', NOW(),'SYSTEM', NOW());
 
 INSERT INTO role_permission (role_id, permission_code, insert_user, insert_date, update_user, update_date)
 VALUES ('1', 'U0001', 'SYSTEM', NOW(),'SYSTEM', NOW()),
 			('1', 'U0002', 'SYSTEM', NOW(),'SYSTEM', NOW()),
 			('1', 'U0003', 'SYSTEM', NOW(),'SYSTEM', NOW()),
-			('1', 'U0004', 'SYSTEM', NOW(),'SYSTEM', NOW());
+			('1', 'U0004', 'SYSTEM', NOW(),'SYSTEM', NOW()),
+			('1', 'R0001', 'SYSTEM', NOW(),'SYSTEM', NOW());
 
 INSERT INTO milestone (milestone_no, `desc`,  insert_user, insert_date, update_user, update_date)
 VALUES

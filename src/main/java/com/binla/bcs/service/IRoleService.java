@@ -1,5 +1,9 @@
 package com.binla.bcs.service;
 
-public interface IRoleService {
+import com.binla.bcs.model.role.response.RoleModel;
 
+import java.util.List;
+
+public interface IRoleService {
+    List<RoleModel> getAll();
 }
