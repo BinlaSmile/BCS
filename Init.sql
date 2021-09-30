@@ -145,6 +145,15 @@ CREATE TABLE log (
                     PRIMARY KEY (id)
 );
 
+DROP TABLE IF EXISTS dic_color;
+CREATE TABLE dic_color (
+										color_code  VARCHAR ( 7 ) NOT NULL COMMENT 'id',
+                    insert_user VARCHAR ( 100 ) NULL COMMENT '创建用户',
+                    insert_date datetime NULL COMMENT '创建时间',
+										update_user VARCHAR ( 100 ) NULL COMMENT '更新用户',
+                    update_date datetime NULL COMMENT '更新时间',
+                    PRIMARY KEY (color_code)
+);
 -- admin账号 admin  123456789
 INSERT INTO users ( `code`, `name`, `password`, role, salt, insert_user, insert_date, update_user, update_date)
 VALUE ('admin', 'admin', 'vsYgXji35Esi/4TJVuF32Q==', '1', 'd608b3275c0f46fc92738dd427b6e559', 'SYSTEM', NOW(),'SYSTEM', NOW());

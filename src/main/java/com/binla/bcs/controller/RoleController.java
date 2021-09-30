@@ -1,11 +1,9 @@
 package com.binla.bcs.controller;
 
+import com.binla.bcs.core.BizException;
 import com.binla.bcs.core.annotation.ResponseResult;
 import com.binla.bcs.model.role.response.RoleModel;
-import com.binla.bcs.model.user.request.GetUserReqModel;
-import com.binla.bcs.model.user.response.UserPageInfoModel;
 import com.binla.bcs.service.IRoleService;
-import com.binla.bcs.service.IUserService;
 import io.swagger.annotations.Api;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
