@@ -147,7 +147,7 @@ CREATE TABLE log (
 
 DROP TABLE IF EXISTS dic_color;
 CREATE TABLE dic_color (
-										color_code  VARCHAR ( 7 ) NOT NULL COMMENT 'id',
+										color_code  CHAR ( 7 ) NOT NULL COMMENT 'id',
                     insert_user VARCHAR ( 100 ) NULL COMMENT '创建用户',
                     insert_date datetime NULL COMMENT '创建时间',
 										update_user VARCHAR ( 100 ) NULL COMMENT '更新用户',
@@ -182,3 +182,21 @@ VALUES
 ('BSC2019', 'BSC Main Project 2019`s', 'SYSTEM', NOW(),'SYSTEM', NOW()),
 ('BSC2020', 'BSC Main Project 2020`s', 'SYSTEM', NOW(),'SYSTEM', NOW()),
 ('BSC2021', 'BSC Main Project 2020`s', 'SYSTEM', NOW(),'SYSTEM', NOW());
+
+INSERT INTO dic_color (color_code, insert_user, insert_date, update_user, update_date)
+VALUES
+('#007bff','SYSTEM', NOW(),'SYSTEM', NOW()),
+('#6c757d','SYSTEM', NOW(),'SYSTEM', NOW()),
+('#17a2b8','SYSTEM', NOW(),'SYSTEM', NOW()),
+('#28a745','SYSTEM', NOW(),'SYSTEM', NOW()),
+('#ffc107','SYSTEM', NOW(),'SYSTEM', NOW()),
+('#dc3545','SYSTEM', NOW(),'SYSTEM', NOW()),
+('#6610f2','SYSTEM', NOW(),'SYSTEM', NOW()),
+('#6f42c1','SYSTEM', NOW(),'SYSTEM', NOW()),
+('#f012be','SYSTEM', NOW(),'SYSTEM', NOW()),
+('#e83e8c','SYSTEM', NOW(),'SYSTEM', NOW()),
+('#d81b60','SYSTEM', NOW(),'SYSTEM', NOW()),
+('#fd7e14','SYSTEM', NOW(),'SYSTEM', NOW()),
+('#01ff70','SYSTEM', NOW(),'SYSTEM', NOW()),
+('#20c997','SYSTEM', NOW(),'SYSTEM', NOW()),
+('#3d9970','SYSTEM', NOW(),'SYSTEM', NOW());
