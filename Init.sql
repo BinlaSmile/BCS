@@ -19,6 +19,10 @@ CREATE TABLE users (
                        update_date datetime NULL COMMENT '更新时间',
                        PRIMARY KEY (`code`)
 );
+-- admin账号 admin  123456789
+INSERT INTO users ( `code`, `name`, `password`, role, salt, insert_user, insert_date, update_user, update_date)
+VALUE ('admin', 'admin', 'vsYgXji35Esi/4TJVuF32Q==', '1', 'd608b3275c0f46fc92738dd427b6e559', 'SYSTEM', NOW(),'SYSTEM', NOW());
+
 /*=========*/
 /* 角色表  */
 /*=========*/
@@ -33,6 +37,10 @@ CREATE TABLE role (
                       update_date datetime NULL COMMENT '更新时间',
                       PRIMARY KEY (id)
 );
+INSERT INTO role ( `id`, `name`, `desc`, insert_user, insert_date, update_user, update_date)
+VALUES ('1', '管理员', '系统管理员', 'SYSTEM', NOW(),'SYSTEM', NOW()),
+       ('2', '用户', '系统用户', 'SYSTEM', NOW(),'SYSTEM', NOW());
+			 
 /*=========*/
 /* 权限表  */
 /*=========*/
@@ -46,6 +54,14 @@ CREATE TABLE permission (
                       update_date datetime NULL COMMENT '更新时间',
                       PRIMARY KEY (`code`)
 );
+INSERT INTO permission (`code`, `desc`, insert_user, insert_date, update_user, update_date)
+VALUES ('U0001', '查询用户列表', 'SYSTEM', NOW(),'SYSTEM', NOW()),
+			('U0002', '添加用户', 'SYSTEM', NOW(),'SYSTEM', NOW()),
+			('U0003', '编辑用户', 'SYSTEM', NOW(),'SYSTEM', NOW()),
+			('U0004', '删除用户', 'SYSTEM', NOW(),'SYSTEM', NOW()),
+			('R0001', '查询角色列表', 'SYSTEM', NOW(),'SYSTEM', NOW()),
+			('C9001', '查询颜色列表', 'SYSTEM', NOW(),'SYSTEM', NOW());
+			
 /*=========*/
 /*角色权限表*/
 /*=========*/
@@ -58,6 +74,14 @@ CREATE TABLE role_permission (
                       update_user VARCHAR ( 20 ) NULL COMMENT '更新用户',
                       update_date datetime NULL COMMENT '更新时间'
 );
+INSERT INTO role_permission (role_id, permission_code, insert_user, insert_date, update_user, update_date)
+VALUES ('1', 'U0001', 'SYSTEM', NOW(),'SYSTEM', NOW()),
+			('1', 'U0002', 'SYSTEM', NOW(),'SYSTEM', NOW()),
+			('1', 'U0003', 'SYSTEM', NOW(),'SYSTEM', NOW()),
+			('1', 'U0004', 'SYSTEM', NOW(),'SYSTEM', NOW()),
+			('1', 'R0001', 'SYSTEM', NOW(),'SYSTEM', NOW()),
+			('1', 'C9001', 'SYSTEM', NOW(),'SYSTEM', NOW());
+			
 /*=========*/
 /* 项目表  */
 /*=========*/
@@ -134,7 +158,16 @@ CREATE TABLE milestone (
                            update_date datetime NULL COMMENT '更新时间',
                            PRIMARY KEY (milestone_no)
 );
+INSERT INTO milestone (milestone_no, `desc`,  insert_user, insert_date, update_user, update_date)
+VALUES
+('BSC2018', 'BSC Main Project 2018`s', 'SYSTEM', NOW(),'SYSTEM', NOW()),
+('BSC2019', 'BSC Main Project 2019`s', 'SYSTEM', NOW(),'SYSTEM', NOW()),
+('BSC2020', 'BSC Main Project 2020`s', 'SYSTEM', NOW(),'SYSTEM', NOW()),
+('BSC2021', 'BSC Main Project 2020`s', 'SYSTEM', NOW(),'SYSTEM', NOW());
 
+/*=========*/
+/* 日志表 */
+/*=========*/
 DROP TABLE IF EXISTS log;
 CREATE TABLE log (
 										id INT NOT NULL auto_increment COMMENT 'id',
@@ -145,6 +178,9 @@ CREATE TABLE log (
                     PRIMARY KEY (id)
 );
 
+/*============*/
+/* 默认颜色表 */
+/*============*/
 DROP TABLE IF EXISTS dic_color;
 CREATE TABLE dic_color (
 										color_code  CHAR ( 7 ) NOT NULL COMMENT 'id',
@@ -154,34 +190,6 @@ CREATE TABLE dic_color (
                     update_date datetime NULL COMMENT '更新时间',
                     PRIMARY KEY (color_code)
 );
--- admin账号 admin  123456789
-INSERT INTO users ( `code`, `name`, `password`, role, salt, insert_user, insert_date, update_user, update_date)
-VALUE ('admin', 'admin', 'vsYgXji35Esi/4TJVuF32Q==', '1', 'd608b3275c0f46fc92738dd427b6e559', 'SYSTEM', NOW(),'SYSTEM', NOW());
-
-INSERT INTO role ( `id`, `name`, `desc`, insert_user, insert_date, update_user, update_date)
-VALUES ('1', '管理员', '系统管理员', 'SYSTEM', NOW(),'SYSTEM', NOW()),
-       ('2', '用户', '系统用户', 'SYSTEM', NOW(),'SYSTEM', NOW());
-
-INSERT INTO permission (`code`, `desc`, insert_user, insert_date, update_user, update_date)
-VALUES ('U0001', '查询用户列表', 'SYSTEM', NOW(),'SYSTEM', NOW()),
-			('U0002', '添加用户', 'SYSTEM', NOW(),'SYSTEM', NOW()),
-			('U0003', '编辑用户', 'SYSTEM', NOW(),'SYSTEM', NOW()),
-			('U0004', '删除用户', 'SYSTEM', NOW(),'SYSTEM', NOW()),
-			('R0001', '查询角色列表', 'SYSTEM', NOW(),'SYSTEM', NOW());
-
-INSERT INTO role_permission (role_id, permission_code, insert_user, insert_date, update_user, update_date)
-VALUES ('1', 'U0001', 'SYSTEM', NOW(),'SYSTEM', NOW()),
-			('1', 'U0002', 'SYSTEM', NOW(),'SYSTEM', NOW()),
-			('1', 'U0003', 'SYSTEM', NOW(),'SYSTEM', NOW()),
-			('1', 'U0004', 'SYSTEM', NOW(),'SYSTEM', NOW()),
-			('1', 'R0001', 'SYSTEM', NOW(),'SYSTEM', NOW());
-
-INSERT INTO milestone (milestone_no, `desc`,  insert_user, insert_date, update_user, update_date)
-VALUES
-('BSC2018', 'BSC Main Project 2018`s', 'SYSTEM', NOW(),'SYSTEM', NOW()),
-('BSC2019', 'BSC Main Project 2019`s', 'SYSTEM', NOW(),'SYSTEM', NOW()),
-('BSC2020', 'BSC Main Project 2020`s', 'SYSTEM', NOW(),'SYSTEM', NOW()),
-('BSC2021', 'BSC Main Project 2020`s', 'SYSTEM', NOW(),'SYSTEM', NOW());
 
 INSERT INTO dic_color (color_code, insert_user, insert_date, update_user, update_date)
 VALUES

@@ -7,9 +7,9 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    username: xxxx
-    password: xxxx
-    url: jdbc:mysql://xxx.xxx.xxx.xxx:xxxx/xxxx?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8
+    username: Binla
+    password: admin54736
+    url: jdbc:mysql://47.98.159.221:3306/BCS?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8
 
   redis:
     host: 127.0.0.1

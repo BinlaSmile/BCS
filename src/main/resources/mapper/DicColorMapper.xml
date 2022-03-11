@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.binla.bcs.repository.IDicColorRepository">
+
+    <sql id="BaseColumn">
+        color_code,
+        insert_user,
+        insert_date,
+        update_user,
+        update_date
+    </sql>
+
+    <resultMap id="colorMap" type="com.binla.bcs.entity.DicColor">
+        <result column="color_code" property="colorCode"/>
+        <result column="insert_user" property="insertUser"/>
+        <result column="insert_date" property="insertDate"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="update_date" property="updateDate"/>
+    </resultMap>
+
+    <select id="getByCode" resultMap="colorMap">
+        SELECT
+        <include refid="BaseColumn"/>
+        FROM dic_color
+        WHERE color_code = #{code}
+    </select>
+
+    <select id="getAll" resultMap="colorMap">
+        SELECT
+        <include refid="BaseColumn"/>
+        FROM dic_color
+    </select>
+
+    <select id="getPageCount" resultType="Integer">
+        SELECT count(1)
+        FROM dic_color
+        <where>
+            <if test="condition != null and condition != ''">
+                color_code LIKE CONCAT('%',#{condition},'%')
+            </if>
+        </where>
+    </select>
+
+    <select id="getPageList" resultMap="colorMap">
+        SELECT
+        <include refid="BaseColumn"/>
+        FROM dic_color
+        <where>
+            <if test="condition != null and condition != ''">
+                color_code LIKE CONCAT('%',#{condition},'%')
+            </if>
+        </where>
+        <if test="query.orderColumn !=null and query.orderColumn != '' and query.orderType != null and query.orderType != ''">
+            ORDER BY ${query.orderColumn} ${query.orderType}
+        </if>
+        LIMIT #{query.pageStart},#{query.pageLength}
+    </select>
+
+    <insert id="insert" >
+        INSERT INTO dic_color (color_code,insert_user,insert_date,update_user,update_date)
+        VALUES (#{color.colorCode},#{color.insertUser},#{color.insertDate},#{color.updateUser},#{color.updateDate});
+    </insert>
+
+    <insert id="insertBatch" >
+        INSERT INTO dic_color (color_code,insert_user,insert_date,update_user,update_date)
+        VALUES
+            <foreach collection="colorList" item="item" index="index" separator=",">
+                (#{item.colorCode},#{item.insertUser},#{item.insertDate},#{item.updateUser},#{item.updateDate})
+            </foreach>
+    </insert>
+
+    <update id="update">
+        UPDATE dic_color
+        <set>
+            <if test="color.colorCode != null and color.colorCode !=''">
+                name = #{color.colorCode},
+            </if>
+
+            <if test="color.insertUser !=null and color.insertUser !=''">
+                insert_user = #{color.insertUser},
+            </if>
+
+            <if test="color.insertDate !=null">
+                insert_date = #{color.insertDate},
+            </if>
+
+            <if test="color.updateUser !=null and color.updateUser !=''">
+                update_user = #{color.updateUser},
+            </if>
+
+            <if test="color.updateDate !=null">
+                update_date = #{color.updateDate}
+            </if>
+        </set>
+        WHERE color_code = #{code}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM dic_color
+        WHERE color_code = #{code}
+    </delete>
+    <delete id="deleteBatch">
+        DELETE FROM dic_color
+        WHERE color_code
+        <foreach collection="codeList" item="item" index="index" open="in(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </delete>
+</mapper>
